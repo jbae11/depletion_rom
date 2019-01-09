@@ -27,13 +27,13 @@ print(one_percent)
 new_dict = OrderedDict({})
 i = 0 
 for assem in assembly_ids:
+    assem_dict = {}
     assem_df = df.loc[df['assembly_id'] == assem]
     assem_dict['reactor_id'] = get_first_from_column(assem_df, 'reactor_id')
     assem_dict['reactor_type'] = get_first_from_column(assem_df, 'reactor_type')
     assem_dict['init_enr'] = get_first_from_column(assem_df, 'initial_enrichment')
     assem_dict['bu'] = get_first_from_column(assem_df, 'discharge_burnup')
     assem_dict = get_assem_comp_dict(assem_df)
-
     new_dict[assem] = assem_dict
     if i%one_percent == 0:
         print('%i %% Done' %int(i / one_percent))
