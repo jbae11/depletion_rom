@@ -31,6 +31,7 @@ for assem in assembly_ids:
     assem_dict = {}
     assem_dict['reactor_type'] = get_first_from_column(assem_df, 'reactor_type')
     assem_dict['total_mass'] = get_first_from_column(assem_df, 'initial_uranium_kg')
+    assem_dict['evaluation_date'] = get_first_from_column(assem_df, 'evaluation_date')
     assem_dict['init_enr'] = get_first_from_column(assem_df, 'initial_enrichment')
     assem_dict['bu'] = get_first_from_column(assem_df, 'discharge_burnup')
     assem_dict = get_assem_comp_dict(assem_dict, assem_df)
