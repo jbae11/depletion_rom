@@ -1,24 +1,43 @@
 \begin{abstract}
 
-    Fuel cycle simulations always battle between quickness and accuracy.
+    \gls{NFC} simulations are system-level analyses that track
+    material flow in a \gls{NFC}. 
 
-    Depletion calculations for fuel cycle simulations were either
+    Since \gls{NFC} simulations
+    involve many facilities, the fidelity of modeling each
+    facility is sacrificed for quickness. 
+
+    One of the most important functionalities in a \gls{NFC}
+    simulation is the depletion of nuclear fuel in a reactor,
+    which is directly related to the \gls{UNF} composition
+    and waste / material profile.
+
+    Depletion calculations for fuel cycle simulations in current
+    \gls{NFC} simulators are either
     recipe based, [so on and so forth, with citation].
 
-    We suggest a novel way to provide variable (continuously variable?) \gls{LWR} depletion calculations
-        using trained prediction models.
-    
-    We fit best-performing regression models for each isotope as a function of burnup and enrichment
-    
-    We compared the \gls{UNF} inventory acquired by the model
-        with the UNF-STANDARDS database and average recipe.
-    
-    [result]
-    
-    1.The model approach predicts \gls{UNF} inventory far better than the recipe approach, and takes
-    into account the varying burnup and enrichment. 
-    
-    2. The model approach can predict the composition of future \gls{UNF} with
-    higher burnup and enrichment [andrei]
+    We trained a set of regression algorithms to predict the
+    \gls{UNF} composition of a \gls{PWR} assembly, given
+    burnup and enrichment. The training sample used is the  Unified
+    database, which is a part of the \gls{UNF-STANDARDS} tool developed
+    by [who dat].
+
+    We tailored a training algorithm to each isotope, in order to
+    better predict the relationship between burnup, enrichment,
+    and isotope composition (because isotopes have varying relationships
+    with burnup and enrichment).
+
+    For each isotope, we pick the regression algorithm with the smallest root mean squared error for the testing dataset, and store the
+    set of trained algorithms in a pickled python file.
+
+    We then validate the set of trained algorithms in two ways -
+    to predict the U.S. \gls{UNF} inventory profile in 2020,
+    and predict SERPENT depletion calculation results.
+
+    1.The model approach predicts \gls{UNF} inventory far better than
+    the recipe approach, and takes into account the varying burnup and
+    enrichment.
+    2. The model approach can predict the composition of future
+    \gls{UNF} with higher burnup and enrichment [andrei]
 
 \end{abstract}
