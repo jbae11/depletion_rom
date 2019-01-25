@@ -27,6 +27,7 @@
 
 \usepackage{booktabs}
 \usepackage{threeparttable, tablefootnote}
+\graphicspath{ {../script/images/} }
 
 \usepackage{tabularx}
 \newcolumntype{b}{>{\hsize=1.0\hsize}X}
@@ -36,7 +37,6 @@
 
 \newcommand{\Cyclus}{\textsc{Cyclus}\xspace}%
 \newcommand{\Cycamore}{\textsc{Cycamore}\xspace}%
-\graphicspath{ {images/} }
 
 % tikz %
 \usepackage{tikz}
@@ -59,7 +59,7 @@
 
 \begin{document}
 \begin{frontmatter}
-\title{Regression Model Applications to Depletion Calculations for Fuel Cycle Modeling}
+\title{Predictive Model Applications to Depletion Calculations for Fuel Cycle Modeling}
 
 \date{}                     %% if you don't need date to appear
 
@@ -72,8 +72,7 @@
 \begin{keyword}
 nuclear fuel cycle \sep
 machine learning \sep
-regression algorithm \sep 
-agent-based \sep 
+regression algorithm \sep   
 simulation \sep 
 spent nuclear fuel 
 \end{keyword}
@@ -84,6 +83,9 @@ spent nuclear fuel
 
 \linenumbers
 \input{introduction}
+\input{method}
+\input{result}
+\input{conclusion}
 
 \bibliography{bibliography}
 

@@ -1,14 +1,24 @@
 \begin{abstract}
 
-    Fuel cycle simulations always battle between quick and accurate.
+    Fuel cycle simulations always battle between quickness and accuracy.
+
     Depletion calculations for fuel cycle simulations were either
     recipe based, [so on and so forth, with citation].
+
     We suggest a novel way to provide variable (continuously variable?) \gls{LWR} depletion calculations
-        using trained regression models.
+        using trained prediction models.
+    
     We fit best-performing regression models for each isotope as a function of burnup and enrichment
-    We compared that to the UNF-STANDARDS database and average recipe.
+    
+    We compared the \gls{UNF} inventory acquired by the model
+        with the UNF-STANDARDS database and average recipe.
+    
     [result]
+    
+    1.The model approach predicts \gls{UNF} inventory far better than the recipe approach, and takes
+    into account the varying burnup and enrichment. 
+    
+    2. The model approach can predict the composition of future \gls{UNF} with
+    higher burnup and enrichment [andrei]
 
 \end{abstract}
-
-

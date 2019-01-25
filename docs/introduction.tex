@@ -1,20 +1,21 @@
 \section{Introduction}
-[definition of NFC]
-[Quickness vs accuracy]
-[Depletion calculations for LWRs]
-[current practice for depletion calculations]
-[pros and cons of those practices]
+\subsection{Background}
+Problem definition
+\begin{itemize}
+    \item definition of NFC
+    \item Quickness vs accuracy
+    \item Depletion calculations for LWRs
+    \item current practice for depletion calculations
+    \item pros and cons of those practices
+\end{itemize}
 
-[What did I do - learning models for each isotope]
-[using UNF-STANDARDS database for PWR depletion calculations]
-[note the criticality exaggeration stuff]
-[Burnup and enrichment -> isotopic composition of UNF]
-[Since all isotopes have different relation to burnup and enrichment
-    - example: burnup indicators, not-so-much indicators]
-[Fit models among different choices of algorithms using sklearn]
 
-[The trained models are pickled for validation / testing]
-[compared with two things]
-    [UNF standards database UNF inventory comparison]
-    [SERPENT depletion calculation prediction for `futuristic' LWR fuels]
-
+\subsection{Solution}
+\begin{itemize}
+    \item What can be done - what I've done
+    \item What did I do - learning models for each isotope to predict UNF composition given bu and enrichment
+    \item Burnup and enrichment -> isotopic composition of UNF
+    \item Since all isotopes have different relation to burnup and enrichment
+            - example: burnup indicators, not-so-much indicators
+    \item Fit models among different choices of algorithms using sklearn
+\end{itemize}
