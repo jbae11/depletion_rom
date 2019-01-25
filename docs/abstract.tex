@@ -20,15 +20,15 @@
     \gls{UNF} composition of a \gls{PWR} assembly, given
     burnup and enrichment. The training sample used is the  Unified
     database, which is a part of the \gls{UNF-STANDARDS} tool developed
-    by [who dat].
+    by Peterson et al. \cite{peterson_used_2013}.
+
+    For each isotope, we pick the regression algorithm with the smallest root mean squared error for the testing dataset, and store the
+    set of trained algorithms in a pickled python file. 
 
     We tailored a training algorithm to each isotope, in order to
     better predict the relationship between burnup, enrichment,
     and isotope composition (because isotopes have varying relationships
     with burnup and enrichment).
-
-    For each isotope, we pick the regression algorithm with the smallest root mean squared error for the testing dataset, and store the
-    set of trained algorithms in a pickled python file.
 
     We then validate the set of trained algorithms in two ways -
     to predict the U.S. \gls{UNF} inventory profile in 2020,
