@@ -9,7 +9,7 @@ def get_assem_comp_dict(assem_dict, assem_df):
         comp_dict[row['name']] = row['total_mass_g']
     total_mass_assem = sum(comp_dict.values())
     for key, val in comp_dict.items():
-        assem_dict[key] = val / total_mass_assem
+        assem_dict[key] = val / total_mass_assem * 100
     return assem_dict
 
 def get_first_from_column(df, column_name):
