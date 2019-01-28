@@ -4,13 +4,16 @@ import matplotlib.pyplot as plt
 from collections import OrderedDict
 
 def get_assem_comp_dict(assem_dict, assem_df):
+    tot_mass = get_first_from_column(assem_df, 'initial_uranium_kg')
     comp_dict = {}
+    other = 100
     for index, row in assem_df.iterrows():
-        comp_dict[row['name']] = row['total_mass_g']
-    total_mass_assem = sum(comp_dict.values())
-    for key, val in comp_dict.items():
-        assem_dict[key] = val / total_mass_assem * 100
+        percentage = (row['total_mass_g'] * 1e3) / tot_mass * 100
+        assem_dict[row['name']] = percentage
+        other -= percentage
+    aseem_dict['other'] = other
     return assem_dict
+
 
 def get_first_from_column(df, column_name):
     return np.array(df[column_name])[0]
@@ -25,7 +28,7 @@ one_percent = n_assem // 100
 print('One Percent')
 print(one_percent)
 new_dict = OrderedDict({})
-i = 0 
+i = 0
 for assem in assembly_ids:
     assem_df = df.loc[df['assembly_id'] == assem]
     assem_dict = {}
