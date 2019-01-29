@@ -13,6 +13,9 @@ import pickle
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.model_selection import GridSearchCV
 
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import KFold
+
 
 # grid search to find best hyperparameter
 # this takes extremely long (not even 25% done in 48 hours)
@@ -25,45 +28,75 @@ all_dat = sklearn.utils.shuffle(all_dat)
 all_dat = all_dat.loc[(all_dat['init_enr'] > 1.5) & (all_dat['bu'] > 10000)]
 
 
-def create_model(optimizer='adam', learn_rate=0.01, momentum=0,
-                 activation='relu', neurons=1,
-                 hidden_layers=1):
-    model = Sequential()
-    model.add(Dense(neurons, input_dim=2, activation=activation))
-    # consider putting in dropout?
-    for i in range(hidden_layers):
-        model.add(Dense(neurons, activation=activation))
-    model.add(Dense(60, activation='linear'))
-    model.compile(loss='mean_squared_error', optimizer=optimizer,
-                  metrics=['mean_absolute_percentage_error'])
-    return model
-
-
 x = all_dat[['init_enr', 'bu']].as_matrix()
-y = all_dat.iloc[:, 4:]
+y = all_dat.iloc[:,5:].as_matrix()
 
-model = KerasRegressor(build_fn=create_model, verbose=0)
-param_grid = dict(batch_size=[10, 40, 80],
-                  epochs=[10, 50, 200],
-                  optimizer=['SGD', 'Adadelta', 'Adam'],
-                  # learn rate and momentum implementation???
-                  activation=['relu', 'tanh', 'linear'],
-                  neurons=[1, 10, 20, 80],
-                  hidden_layers=[0, 1, 5, 10]
-                  )
-grid = GridSearchCV(estimator=model, param_grid=param_grid, verbose=1, cv=None)
-grid_result = grid.fit(x, y)
+scaler = MinMaxScaler()
+xscaler = MinMaxScaler().fit(x)
+yscaler = MinMaxScaler().fit(y)
+xscale = xscaler.transform(x)
+yscale = yscaler.transform(y)
 
-# summarize results
-print('Best: %f using %s' % (grid_result.best_score_, grid_result.best_params_))
-with open('result.txt', 'w') as f:
-    f.write('Best: %f using %s' %
-            (grid_result.best_score_, grid_result.best_params_))
-    f.write('\n')
+iso_list = list(all_dat.iloc[:, 5:])
 
-means = grid_result.cv_results_['mean_test_score']
-stds = grid_result.cv_results_['std_test_score']
-params = grid_result.cv_results_['params']
+model_dict = {}
 
-for mean, stdev. param in zip(means, stds, params):
-    print('%f (%f) with: %r' % (mean, stdev, param))
+# kfold cross validation
+kfold = StratifiedKFold(n_splits=3, shuffle=True)
+kfold = KFold(n_splits=3)
+cvscores = []
+
+score_model_dict = {}
+
+def run_model(hidden_layers_=3,
+              node_per_hidden_layer_=4,
+              dropout_rate_=0,
+              output_activation_='linear',
+              epochs_=150,
+              batch_size_=50,
+              hidden_layer_activation_='relu'
+              ):
+    for train, test in kfold.split(xscale):
+        model = Sequential()
+        model.add(Dense(2, input_dim=2, kernel_initializer='normal', activation='relu'))
+        for i in range(hidden_layers):
+            model.add(Dense(node_per_hidden_layer,
+                            activation=hidden_layer_activation_))
+            if dropout_rate_ != 0:
+                model.add(Dropout(dropout_rate_))
+        model.add(Dense(len(yscale[0]), activation=output_activation_))
+        model.compile(loss='mse', optimizer='adam',
+                      metrics=['mse', 'mae'])
+        model.fit(xscale[train], yscale[train],
+                  epochs=epochs_, batch_size=batch_size_,
+                  verbose=0)
+        scores = model.evaluate(xscale[test], yscale[test])
+        print('%s: %.2f%%' %(model.metrics_names[1], scores[1]*100))
+        cvscores.append(scores[1] * 100)
+    print('%.2f%% (+/- %.2f%%)' %(np.mean(cvscores), np.std(cvscores)))
+    param_dict = {'hidden_layers':hidden_layers_,
+                  'node_per_hidden_layer': node_per_hidden_layer_,
+                  'dropout_rate': dropout_rate_,
+                  'output_activation': output_activation_,
+                  'epochs': epochs_,
+                  'batch_size': batch_size_,
+                  'model': model}
+    print(param_dict, '\n')
+    return param_dict, np.mean(cvscores)
+
+# 3 * 4 * 3 * 2 = 72 neural network models
+for _hidden_layers in range(1,4):
+    for _node_per_hidden_layer in [4, 8, 16, 32]:
+        for _dropout_rate in [0, 0.2, 0.5]:
+            for _output_activation in ['linear', 'sigmoid']:
+                param_dict, score = run_model(hidden_layers=_hidden_layers,
+                                              node_per_hidden_layer_= _node_per_hidden_layer,
+                                              dropout_rate_=_dropout_rate,
+                                              output_activation_=_output_activation)
+                score_model_dict[score] = param_dict
+
+print(score_model_dict)
+
+f = open('ann.pkl', 'wb')
+pickle.dump(score_model_dict, f)
+f.close()
