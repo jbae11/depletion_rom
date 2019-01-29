@@ -3,15 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from collections import OrderedDict
 
-def get_assem_comp_dict(assem_dict, assem_df):
-    tot_mass = get_first_from_column(assem_df, 'initial_uranium_kg')
-    comp_dict = {}
+def get_assem_comp_dict(assem_dict, assem_df, assem_mass_kg):
+    print('Starting comp dict')
     other = 100
     for index, row in assem_df.iterrows():
-        percentage = (row['total_mass_g'] * 1e3) / tot_mass * 100
+        percentage = (row['total_mass_g'] * 1e-3) / assem_mass_kg * 100
         assem_dict[row['name']] = percentage
         other -= percentage
-    aseem_dict['other'] = other
+    assem_dict['other'] = other
     return assem_dict
 
 
@@ -19,6 +18,8 @@ def get_first_from_column(df, column_name):
     return np.array(df[column_name])[0]
 
 df = pd.read_csv('./db/udb_1yr.dat', sep='\t')
+
+df = df.head(200)
 
 assembly_ids = np.unique(df['assembly_id'])
 n_assem = len(assembly_ids)
@@ -37,7 +38,7 @@ for assem in assembly_ids:
     assem_dict['evaluation_date'] = get_first_from_column(assem_df, 'evaluation_date')
     assem_dict['init_enr'] = get_first_from_column(assem_df, 'initial_enrichment')
     assem_dict['bu'] = get_first_from_column(assem_df, 'discharge_burnup')
-    assem_dict = get_assem_comp_dict(assem_dict, assem_df)
+    assem_dict = get_assem_comp_dict(assem_dict, assem_df, assem_dict['total_mass'])
     new_dict[assem] = assem_dict
     if i%one_percent == 0:
         print('%i %% Done' %int(i / one_percent))
