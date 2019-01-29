@@ -19,8 +19,6 @@ def get_first_from_column(df, column_name):
 
 df = pd.read_csv('./db/udb_1yr.dat', sep='\t')
 
-df = df.head(200)
-
 assembly_ids = np.unique(df['assembly_id'])
 n_assem = len(assembly_ids)
 print('Number of assemblies')
