@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from collections import OrderedDict
 
 def get_assem_comp_dict(assem_dict, assem_df, assem_mass_kg):
-    print('Starting comp dict')
     other = 100
     for index, row in assem_df.iterrows():
         percentage = (row['total_mass_g'] * 1e-3) / assem_mass_kg * 100
