@@ -5,6 +5,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 import pickle
 from sklearn.model_selection import KFold
+from keras.layers import Dropout
 from sklearn.preprocessing import MinMaxScaler
 
 # grid search to find best hyperparameter
@@ -66,7 +67,7 @@ def run_model(hidden_layers_=3,
         print('%s: %.2f%%' %(model.metrics_names[1], scores[1]*100))
         cvscores.append(scores[1] * 100)
     print('%.2f%% (+/- %.2f%%)' %(np.mean(cvscores), np.std(cvscores)))
-    param_dict['model'] = model
+    # param_dict['model'] = model
     return param_dict, np.mean(cvscores)
 
 # 3 * 4 * 3 * 2 = 72 neural network models
@@ -79,7 +80,8 @@ for _hidden_layers in range(1,4):
                 param_dict, score = run_model(hidden_layers_=_hidden_layers,
                                               node_per_hidden_layer_= _node_per_hidden_layer,
                                               dropout_rate_=_dropout_rate,
-                                              output_activation_=_output_activation)
+                                              output_activation_=_output_activation,
+                                              epochs_=10)
                 score_model_dict[score] = param_dict
                 f = open('ann.pkl', 'wb')
                 pickle.dump(score_model_dict, f)
