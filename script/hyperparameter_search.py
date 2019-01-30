@@ -38,7 +38,8 @@ def run_model(hidden_layers_=3,
               output_activation_='linear',
               epochs_=150,
               batch_size_=50,
-              hidden_layer_activation_='relu'
+              hidden_layer_activation_='relu',
+              return_model=False
               ):
     cvscores = []
     kfold = KFold(n_splits=3)
@@ -68,8 +69,12 @@ def run_model(hidden_layers_=3,
         cvscores.append(scores[1] * 100)
     print('%.2f%% (+/- %.2f%%)' %(np.mean(cvscores), np.std(cvscores)))
     # param_dict['model'] = model
+    if return_model:
+        param_dict['model'] = model
     return param_dict, np.mean(cvscores)
 
+
+"""
 # 3 * 4 * 3 * 2 = 72 neural network models
 # *3 for 3-fold validation
 score_model_dict = {}
@@ -88,3 +93,13 @@ for _hidden_layers in range(1,4):
                 f.close()
 
 print(score_model_dict)
+"""
+
+param_dict, score = run_model(hidden_layers_=2,
+                              node_per_hidden_layer_=4,
+                              dropout_rate_=0,
+                              output_activation_='linear',
+                              epochs_=10    ,
+                              batch_size_=50,
+                              return_model=True)
+print(param_dict, score)
