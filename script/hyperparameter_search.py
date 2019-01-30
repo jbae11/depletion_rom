@@ -68,9 +68,15 @@ def run_model(hidden_layers_=3,
         print('%s: %.2f%%' %(model.metrics_names[1], scores[1]*100))
         cvscores.append(scores[1] * 100)
     print('%.2f%% (+/- %.2f%%)' %(np.mean(cvscores), np.std(cvscores)))
-    # param_dict['model'] = model
     if return_model:
-        param_dict['model'] = model
+        model_dict = {'model': model,
+                      'xscaler': xscaler,
+                      'yscaler': yscaler,
+                      'iso_list': list(all_dat.iloc[:, 5:])
+                      }
+        f = open('ann_model.pkl', 'wb')
+        pickle.dump(model_dict, f)
+        f.close()
     return param_dict, np.mean(cvscores)
 
 
@@ -95,11 +101,11 @@ for _hidden_layers in range(1,4):
 print(score_model_dict)
 """
 
-param_dict, score = run_model(hidden_layers_=2,
-                              node_per_hidden_layer_=4,
+param_dict, score = run_model(hidden_layers_=3,
+                              node_per_hidden_layer_=16,
                               dropout_rate_=0,
                               output_activation_='linear',
-                              epochs_=10    ,
+                              epochs_=150,
                               batch_size_=50,
                               return_model=True)
 print(param_dict, score)
