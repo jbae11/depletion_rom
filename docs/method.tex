@@ -1,43 +1,165 @@
 \section{Method}
 
+This work follows four steps. First, the
+received data with assembly information is
+curated for ease of use in training the model.
+Second, we train the neural network using Keras and
+Scikit-learn, while using an outer loop to
+search for the optimized neural network set of hyperparameters.
+Third, we use the model to predict the U.S. \gls{UNF}
+inventory as specified in the \gls{UDB} and compare
+\gls{UNF} inventory metrics such as fissile content
+and decay heat.
+
+
+This work follows four steps:
+\begin{enumerate}
+\item Data curation
+\item Training model (with hyperparameter search)
+\item Validation of model
+\item Implementing model in \Cyclus.
+\end{enumerate}
+
 \subsection{Training and testing dataset}
 
+In order to train a depletion model, a large amount of
+depletion data is needed. Given a large database,
+we can train the algorithm to predict depleted
+nuclear fuel composition.
+
 \subsubsection{Unified Database}
+The \gls{UDB} is part of a larger engineering
+analysis tool, the \gls{UNF-ST\&DARDS}, developed
+by \gls{ORNL} \cite{peterson_used_2013}. The
+database ``provides a comprehensive, controlled
+source of \gls{SNF} information, including
+dry cask attributes, assembly data, economic attributes,
+transportation infrastructure attributes, potential future
+facility attributes, and federal government radioactive
+waste attributes.
+
+We received the database through personal contact
+with [] [how we got it and stuff]
+
+list of assumptions from the \gls{UDB-STANDARDS} dataset.
 \begin{itemize}
-    \item Got from Unified database
-    \item Explain Unified database - using SCALE ORIGEN
-    \item mention criticality exaggeration
+    \item UNF database 
+    \item different assembly geometries?
 \end{itemize}
 
-\subsection{Data Description and Curation}
 
-\begin{itemize}
-    \item Describe data - feature and target space, number, std deviation etc
-    \item Training data curation
-    \begin{itemize}
-        \item only PWR
-        \item filter out extreme cases - low bu and enrichment
-    \end{itemize}
-\end{itemize}
+Ideally, the data should be generated with exact same reactor
+parameters other than burnup and enrichment, such as geometry or
+coolant density. However, since
+this is preliminary work to prove potential workflow, we
+simply used all the \gls{PWR} datasets in the \gls{UDB}.
+
+
+\subsection{Data Curation}
+
+We curated the raw \gls{UDB} datasets to generate
+a cleaner training set. First we only used the 
+\gls{PWR} assemblies since \gls{BWR} \gls{UNF} assembly
+calculations can vary largely due to coolant density
+and reactor design, with regards to two-phase flow. (?!)
+We also filtered out the 
+`very low' enrichment (< 1.5) and burnup (< 10,000 MWdth/kg)
+assemblies to represent more modern \gls{PWR} \gls{UNF}
+assembly range.
+Also, the SCALE calculation in the \gls{UDB} only tracks 60 isotopes,
+and \textasciitilde 3\% of the \gls{UNF} is not accounted for. We
+aggregate the isotopes not accounted for as `others'. Lastly,
+we curated the database so that the isotopic compositions are 
+represented as \% weight from initial uranium mass, to normalize
+the dataset.
+
+\begin{equation}
+x_i = \frac{m_i}{M_{initU}}
+i = \text{isotope}
+x_i = \text{\% weight of depleted assembly}
+m_i = \text{mass of isotope in depleted assembly in \gls{UDB}}
+M_{initU} = \text{Mass of initial uranium in assembly}
+\end{equation}
+
 
 \subsection{Predictive Models}
-from sklearn citation
-\begin{itemize}
-    \item   Describe algorithms and what they do
-    \begin{itemize}
-        \item linear regression
-        \item multivariate polynomial
-        \item random forest
-        \item etc
-    \end{itemize}
-\end{itemize}
+
+Isotopic composition of \gls{UNF} is hard to predict due to their
+non-linear relationship with reactor parameters. For each
+isotope, we plotted isotopic concentration values against
+burnup and enrichment to observe the relationship between
+burnup, enrichment, and isotope concentration.
+
+[batesman equation analogy]
+For example, if the isotope population is mainly determined by
+the fission of initial uranium, a linear regression algorithm
+can be used to predict the isotope concentration from burnup
+(Cs-137 shown in figure \ref{fig:cs_137}).
+However, isotopes like plutonium-239 (figure \ref{fig:pu_239}) have multiple, conflicting creation
+and destruction terms, making it harder to predict using a
+linear regression algorithm. Also, the uranium-235 (figure \ref{fig:u_235}) concentration
+depends on both burnup and enrichment, which can make it
+hard to predict using a simple linear model.
+
+Due to these complexities, we decided to train an artificial
+neural network for our predictive model. We chose
+Keras to create and validate the model, as well as scikit-learn
+and pandas for data processing and management.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./isos/cs-137_sub.png}
+    \caption{Cesium-137 concentration in a \gls{UNF} assembly
+             has a linear relationship with assembly burnup.}
+    \label{fig:cs_137}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./isos/pu-239_sub.png}
+    \caption{Plutonium-239 composition in a \gls{UNF} assembly
+             is not directly proportional to burnup, and is
+             not related to initial enrichment.}
+    \label{fig:pu_239}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./isos/u-235_sub.png}
+    \caption{Uranium-235 composition in a \gls{UNF} assembly
+             somewhat proportional to both enrichment and
+             burnup, and is difficult to predict using
+             a simple linear regression algorithm.}
+    \label{fig:u_235}
+\end{figure}
+
 
 \subsection{Training and Selecting Models}
+
+The input space (feature space) of the model is set to
+be burnup (MWdth/kg) and initial enrichment (wt\% U-235).
+The output space (target space) of the model is set to
+be the individual concentration of the 60 isotopes in the
+depleted assembly.
+
+
+
+
 \begin{itemize}
-    \item Method for finding `best' algorithm
-    \item test and train set - cross validation
-    \item saving the trained models
+    Training model
+    \begin{itemize}
+        \item Describe data - feature and target space, number, std deviation etc
+        \item Training data curation
+    \end{itemize}
+    \item normalization of input and output space
+    \item saving the model with scalers
+    \item hyperparameter search
 \end{itemize}
+
+
+
+
+
 
 \subsection{Testing Models}
 \begin{itemize}

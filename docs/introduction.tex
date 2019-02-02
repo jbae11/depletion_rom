@@ -1,19 +1,46 @@
 \section{Introduction}
-\subsection{Background}
+\subsection{Background and Motivation}
 Problem definition
+
 \begin{itemize}
     \item definition of NFC
     \item Quickness vs accuracy
     \item Depletion calculations for LWRs
-    \item current practice for depletion calculations
-    \item pros and cons of those practices
-    \item Does it even matter? Fuel cycle simulation is a system-level analysis
+    \item current practice for depletion calculations [citations]
+    \item pros and cons of those practices [citations]
+    \item Does it even matter? Fuel cycle simulation is a system-level analysis. How much does it matter? [citations]
 \end{itemize}
 
+
 \gls{NFC} simulations are system-level analyses that track
-material flow in a \gls{NFC}. A large system-level analysis
-involves a multitude of nuclear facilities. Having a high-fidelity
-modeling tool for each facility is too computationally burdensome.
+material flow in a \gls{NFC}. 
+
+Since \gls{NFC} simulations
+involve many facilities, the fidelity and detail of modeling each
+facility are sacrificed for quickness. 
+
+One of the most crucial functionalities in a \gls{NFC}
+simulation is the transmutation of nuclear fuel in a reactor,
+which is directly related to the \gls{UNF} composition
+and waste / material profile.
+
+Depletion calculations for fuel cycle simulations in current
+\gls{NFC} simulators are either
+recipe based (no calculation performed), 
+library based, [so on and so forth, with citation].
+
+
+
+1.The model approach predicts \gls{UNF} inventory far better than
+the recipe approach, and takes into account the varying burnup and
+enrichment.
+2. The model approach can predict the composition of future
+\gls{UNF} with higher burnup and enrichment [andrei]
+
+\subsection{\Cyclus}
+
+
+
 
 
 
@@ -29,3 +56,13 @@ modeling tool for each facility is too computationally burdensome.
 
 A trained depletion model can provide a rapid depletion calculation, while
 maintaining accuracy.
+
+
+
+\subsubsection{Machine learning prediction algorithms}
+
+\begin{itemize}
+    \item plug about machine learning
+    \item how easy it is keras, hyperparameter search and stuff
+    \item easier to predict
+\end{itemize}
