@@ -1,43 +1,31 @@
 \begin{abstract}
 
-    \gls{NFC} simulations are system-level analyses that track
-    material flow in a \gls{NFC}. 
+We trained a neural network model
+to predict \gls{UNF} composition given initial enrichment
+and burnup.
+The model is trained using fuel depletion calculation
+data from the \gls{UNF-STANDARDS} \gls{UDB}.
 
-    Since \gls{NFC} simulations
-    involve many facilities, the fidelity of modeling each
-    facility is sacrificed for quickness. 
+We validated the model by comparing the U.S. \gls{UNF} inventory profile
+predicted by the model with the \gls{UDB} \gls{UNF} inventory
+profile. Using the model yields less than 1.5\% error of
+\gls{UNF} inventory decay heat and activity, and less than
+5\% error for isotopic inventory.
 
-    One of the most important functionalities in a \gls{NFC}
-    simulation is the depletion of nuclear fuel in a reactor,
-    which is directly related to the \gls{UNF} composition
-    and waste / material profile.
+The neural network model took 120 ms for 100 depletion calculations.
 
-    Depletion calculations for fuel cycle simulations in current
-    \gls{NFC} simulators are either
-    recipe based, [so on and so forth, with citation].
+We also implemented this model into \Cyclus, an agent-based
+\gls{NFC} simulator, to perform rapid, medium-fidelity
+depletion calculations. This model also allows discharge
+batches with varying burnup.
 
-    We trained a set of regression algorithms to predict the
-    \gls{UNF} composition of a \gls{PWR} assembly, given
-    burnup and enrichment. The training sample used is the  Unified
-    database, which is a part of the \gls{UNF-STANDARDS} tool developed
-    by Peterson et al. \cite{peterson_used_2013}.
+Since the original proprietary data cannot be retrieved from the model,
+this trained model allows open-source depletion capabilities to \gls{NFC}
+simulators.
 
-    For each isotope, we pick the regression algorithm with the smallest root mean squared error for the testing dataset, and store the
-    set of trained algorithms in a pickled python file. 
-
-    We tailored a training algorithm to each isotope, in order to
-    better predict the relationship between burnup, enrichment,
-    and isotope composition (because isotopes have varying relationships
-    with burnup and enrichment).
-
-    We then validate the set of trained algorithms in two ways -
-    to predict the U.S. \gls{UNF} inventory profile in 2020,
-    and predict SERPENT depletion calculation results.
-
-    1.The model approach predicts \gls{UNF} inventory far better than
-    the recipe approach, and takes into account the varying burnup and
-    enrichment.
-    2. The model approach can predict the composition of future
-    \gls{UNF} with higher burnup and enrichment [andrei]
+This method of training a reduced order model with a
+dataset from a high-fidelity fuel depletion model
+can provide medium-fidelity, rapid depletion capabilities
+to large-scale fuel cycle simulations.
 
 \end{abstract}
