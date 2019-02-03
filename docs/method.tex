@@ -20,7 +20,7 @@ This work follows four steps:
 \item Implementing model in \Cyclus.
 \end{enumerate}
 
-\subsection{Training and testing dataset}
+\subsection{Train dataset}
 
 In order to train a depletion model, a large amount of
 depletion data is needed. Given a large database,
@@ -29,7 +29,7 @@ nuclear fuel composition.
 
 \subsubsection{Unified Database}
 The \gls{UDB} is part of a larger engineering
-analysis tool, the \gls{UNF-ST\&DARDS}, developed
+analysis tool, the \gls{UNF-STANDARDS}, developed
 by \gls{ORNL} \cite{peterson_used_2013}. The
 database ``provides a comprehensive, controlled
 source of \gls{SNF} information, including
@@ -38,15 +38,18 @@ transportation infrastructure attributes, potential future
 facility attributes, and federal government radioactive
 waste attributes.
 
+============================================
+
 We received the database through personal contact
 with [] [how we got it and stuff]
 
-list of assumptions from the \gls{UDB-STANDARDS} dataset.
+list of assumptions from the \gls{UNF-STANDARDS} dataset.
 \begin{itemize}
-    \item UNF database 
+    \item UNF database
     \item different assembly geometries?
 \end{itemize}
 
+============================================
 
 Ideally, the data should be generated with exact same reactor
 parameters other than burnup and enrichment, such as geometry or
@@ -71,15 +74,21 @@ and \textasciitilde 3\% of the \gls{UNF} is not accounted for. We
 aggregate the isotopes not accounted for as `others'. Lastly,
 we curated the database so that the isotopic compositions are 
 represented as \% weight from initial uranium mass, to normalize
-the dataset.
+the dataset. For every isotope \textit{i}:
 
 \begin{equation}
 x_i = \frac{m_i}{M_{initU}}
-i = \text{isotope}
-x_i = \text{\% weight of depleted assembly}
-m_i = \text{mass of isotope in depleted assembly in \gls{UDB}}
-M_{initU} = \text{Mass of initial uranium in assembly}
 \end{equation}
+where:
+\[
+x_i = \text{\% weight of depleted assembly}
+\]
+\[
+m_i = \text{mass of isotope in depleted assembly in \gls{UDB}}
+\]
+\[
+M_{initU} = \text{Mass of initial uranium in assembly}
+\]
 
 
 \subsection{Predictive Models}
@@ -108,7 +117,7 @@ and pandas for data processing and management.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/cs-137_sub.png}
+    \includegraphics[width=\textwidth]{./isos/cs-137_sub}
     \caption{Cesium-137 concentration in a \gls{UNF} assembly
              has a linear relationship with assembly burnup.}
     \label{fig:cs_137}
@@ -117,7 +126,7 @@ and pandas for data processing and management.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/pu-239_sub.png}
+    \includegraphics[width=\textwidth]{./isos/pu-239_sub}
     \caption{Plutonium-239 composition in a \gls{UNF} assembly
              is not directly proportional to burnup, and is
              not related to initial enrichment.}
@@ -125,10 +134,10 @@ and pandas for data processing and management.
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/u-235_sub.png}
+    \includegraphics[width=\textwidth]{./isos/u-235_sub}
     \caption{Uranium-235 composition in a \gls{UNF} assembly
              somewhat proportional to both enrichment and
-             burnup, and is difficult to predict using
+             burnup, but is difficult to predict using
              a simple linear regression algorithm.}
     \label{fig:u_235}
 \end{figure}
@@ -142,30 +151,65 @@ The output space (target space) of the model is set to
 be the individual concentration of the 60 isotopes in the
 depleted assembly.
 
+With the curated isotope, we performed a three-fold
+cross validation on the training dataset to find the
+best-performing neural network hyperparameter. We
+normalized the data using the sklearn MinMaxScaler
+so that the range of input and output data is (0,1).
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lr}
+        \hline
+        Parameter & Values \\
+        \hline
+        Number of hidden layers & 1, 2, \textbf{3} \\
+        Node per hidden layer & 4, 8, \textbf{16}, 32 \\
+        Dropout rate & \textbf{0.0}, 0.2, 0.5 \\
+        \hline
+    \end{tabular}
+    \caption{Table of hyperparameters tested
+             for neural network model. The bolded
+             numbers are values chosen for the final model.}
+\end{table}
 
-
-\begin{itemize}
-    Training model
-    \begin{itemize}
-        \item Describe data - feature and target space, number, std deviation etc
-        \item Training data curation
-    \end{itemize}
-    \item normalization of input and output space
-    \item saving the model with scalers
-    \item hyperparameter search
-\end{itemize}
-
-
-
-
+The model with the smallest average loss value
+is selected and is exported as a file using python
+pickle, along with the dataset scaling objects, as well as
+the list of isotopes. By exporting the trained model
+as a file, the model can be used in any python
+application by loading the pickled file.
 
 
 \subsection{Testing Models}
-\begin{itemize}
-    \item US inventory comparison with UNF STANDARDS
-    \item Comparison with SERPENT results
-    \begin{itemize}
-        \item isotope tracking, assumptions
-    \end{itemize}
-\end{itemize}
+
+The accuracy of the model is tested by comparing
+the model's prediction of \gls{UNF} composition
+in three different metrics. First, we compare the
+isotope-by-isotope prediction error of the model for an
+assembly with a specific burnup and enrichment.
+Second, we compare the waste characteristics of
+the assemblies for all assemblies. Third, we compare
+the predicted total \gls{PWR} \gls{UNF} inventory with
+\gls{UDB}.
+
+Ideally, the model should be tested against data
+that is not part of the training data. However, given
+that the purpose of this model is to allow accessible,
+quick, and medium-fidelity depletion calculation for
+fuel cycle simulations, the model would suffice if
+it predicts SCALE results well. In other words, the
+purpose of the model is to be able to reproduce the
+trained dataset without acquiring this particular dataset.
+Again, this work
+is to propose a general idea for implementing
+rapid depletion models in fuel cycle simulations.
+For creating depletion models for other reactor designs,
+one would simply change the dataset to a set of depletion
+calculations done for a specific reactor design with
+constant operational parameters.
+
+A longer term application of interest could be using
+neural networks to optimize \gls{MSR} parameters
+such as reprocessing rate, flow rate, or fuel
+salt composition.????????
