@@ -2,6 +2,7 @@
 \subsection{Background and Motivation}
 Problem definition
 
+=========================GWEN=========================
 \begin{itemize}
     \item definition of NFC
     \item Quickness vs accuracy
@@ -37,33 +38,84 @@ enrichment.
 2. The model approach can predict the composition of future
 \gls{UNF} with higher burnup and enrichment [andrei]
 
+=========================GWENEND=========================
+
 \subsection{\Cyclus}
-[typical spill about Cyclus]
 
-[its modularity, how this model can be just 'plugged in']
+\Cyclus is an agent-based nuclear fuel cycle simulation framework 
+\cite{huff_fundamental_2016}, meaning
+that each reactor and fuel cycle facility is modeled as a discrete and independent
+player in the simulation.
+A \Cyclus agent archetype defines the logic that governs the behavior
+of an agent. In this simulation, the user defines the archetype's
+parameters. The archetypes with user-defined parameters are then deployed
+as agent prototypes.  Encapsulating the \texttt{Facility} agents are the \texttt{Institution} and \texttt{Region}.
+A \texttt{Region} agent holds a set of \texttt{Institution}s. 
+An \texttt{Institution} agent can deploy or decommission \texttt{Facility} agents.
+
+Several versions of \texttt{Institution}
+and \texttt{Region} agents exist, varying in complexity and purpose \cite{huff_extensions_2014}.
+\texttt{DeployInst}, which deploys agents at user-defined timesteps, serves
+as the main \texttt{Institution} archetype in this work. All reactor \texttt{Facility} agents,
+fuel reprocessing, and fabrication \texttt{Facility} agents
+are deployed through \texttt{DeployInst}, while basic fuel cycle \texttt{Facility} agents
+such as sink, source, enrichment, and storage facilities are deployed 
+through \texttt{NullInst}, which simply deploys \texttt{Facility}
+agents at the beginning of the simulation.
+
+At each timestep,
+agents make requests for materials or bid to supply them and exchange
+with one another. A market-like mechanism called the dynamic resource exchange
+\cite{gidden_methodology_2016} governs the exchanges.
+For output analysis, each material resource has a quantity, composition, name, and a unique identifier.
+
+In this work, each nation is represented as a \texttt{Region} agent,
+that contains \texttt{Institution} agents, which deploy \texttt{Facility} 
+agents according to a user-defined deployment scheme.
+
+Cyclus has multiple advantages over other available
+\gls{NFC} simulation codes including open-source distribution, modularity,
+and extensibility. Its agent-based modeling approach
+is ideal for modeling coupled, physics-dependent
+supply chain problems common in \glspl{NFC}.
+The framework allows for dynamic loading of 
+external libraries, which allows the users to plug-and-play
+different types of physics models for \gls{NFC}
+simulation.
 
 
+\subsubsection{Modularity and Extensibility}
+
+In most modern \glspl{NFC} simulators, the facilities and their
+behaviors (and their fidelities) are confined in the software.
+Also, most modern \gls{NFC} simulators model
+fuel cycles (once-through, continuous reprocessing)
+with immutable connections between facilities. On the
+other hand, \Cyclus allows users to plug-and-play various agent models
+within the \Cyclus framework (shown in figure \ref{fig:core}).
+Also, \Cyclus relies on a market-based model
+for material trades between facilities, so the user can design
+any novel fuel cycle. This enables \Cyclus to simulate any system analysis
+involving multiple connected facilities with physics-based
+calculations.
 
 
-\subsection{Solution}
-\begin{itemize}
-    \item What can be done - what I've done
-    \item What did I do - learning models for each isotope to predict UNF composition given bu and enrichment
-    \item Burnup and enrichment -> isotopic composition of UNF
-    \item Since all isotopes have different relation to burnup and enrichment
-            - example: burnup indicators, not-so-much indicators
-    \item Fit models among different choices of algorithms using sklearn
-\end{itemize}
+\begin{figure}[htbp!]
+    \begin{center}
+        \includegraphics[width=\textwidth]{cyclus_core.png}
+    \end{center}
+    \caption{The \Cyclus core provides APIs that the archetypes
+            can be loaded into the simulation modularly
+            \cite{huff_fundamental_2016}.}
+    \label{fig:core}
+\end{figure}
 
-A trained depletion model can provide a rapid depletion calculation, while
-maintaining accuracy.
+Within the \Cyclus kernel, the \gls{DRE} connects
+the framework and the agents by mediating agent material
+offers and requests.
+The kernel solves the multicommodity exchange problem
+posed by the material offers and requests and executes
+the transaction between two agents.
 
-
-
-\subsubsection{Machine learning prediction algorithms}
-
-\begin{itemize}
-    \item plug about machine learning
-    \item how easy it is keras, hyperparameter search and stuff
-    \item easier to predict
-\end{itemize}
+\Cyclus archetypes could also be coded with Python,
+allowing the created model to be plugged into the archetype.

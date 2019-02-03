@@ -1,5 +1,10 @@
 \section{Results}
 
+The model performed better than using the average
+recipe in predicting the U.S. \gls{UNF}. However,
+the model underperformed in predicting uranium-235
+and uranium-238.
+
 
 \subsection{Depletion calculation time}
 
@@ -10,13 +15,70 @@ searching the database for an assembly
 with the closest burnup and enrichment (using Pandas read csv)
 takes 21.8 seconds.
 
+\subsection{Assembly comparison}
+
+An assembly data was picked at random from the \gls{UDB},
+and was compared with the model predictions, to observe
+two things:
+\begin{enumerate}
+    \item What isotope (or Z, A range) the model is good / bad 
+        at predicting
+    \item What burnup / enrichment range the model is good / bad
+        at predicting
+\end{enumerate}
+
+Figures \ref{fig:274_31528}, \ref{fig:373_37925},
+\ref{fig:40_31512}, \ref{fig:34_37521} show that the model
+generally performs poorly for --------
+
+Large error is due to the extremely small amount of isotope
+- small error / tiny isotope amount = laaarge error percent 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{2-74_31428-0.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:274_31528}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{3-73_37925-0.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:373_37925}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{4-0_31512-0.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:40_31512}
+\end{figure}
+    
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{3-4_37521-0.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.}
+    \label{fig:34_37521}
+\end{figure}
+
 \subsection{U.S. \gls{UNF} inventory comparison}
 
 
 The Unified database contains discharged assembly data
 from nuclear reactors in the United States up to May of
 2013. 
-
 
 \begin{table}[h]
     \centering
@@ -28,6 +90,7 @@ from nuclear reactors in the United States up to May of
         $^{137}Cs$ mass [t] & 40.72 & 38.85 & 40.29 \\
         $^{235}U$ mass [t] & 478.74 & 468.11 & 457.10\\
         $^{238}U$ mass [t] & 42,379 & 42,399 & 42,422\\
+        \hline
         Decay Heat [MW] & 193.59 & 177.28 & 192.00 \\
         Activity [Bq] & $2.80e21$ & $2.52e21$ & $2.74e21$ \\
         \hline
@@ -37,19 +100,77 @@ from nuclear reactors in the United States up to May of
 \end{table}
 
 
+Comparing the isotope inventory, the model outperforms the
+average recipe method for all isotopes save uranium-235 and
+uranium-238. Figure \ref{fig:iso_rel} shows the relative
+error between the full database and model prediction for
+major isotopes. For plutonium isotopes, the model far
+outperforms the average database. In general, as expected,
+the model outperforms isotopes that are sensitive to burnup
+than the average recipe method.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{iso_rel.png}
+    \caption{}
+    \label{fig:iso_rel}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{pu_rel.png}
+    \caption{}
+    \label{fig:pu_rel}
+\end{figure}
+
+
+
+The model excellently predicts the waste metrics activity
+and decay heat. Figures \ref{fig:assem_dh} and \ref{fig:assem_act}
+show the relative error percent of the decay heat and activity
+predictions per assembly. The model predicts most assemblies
+with an error less than 1\%, except for assemblies with low burnup.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{assem_dh.png}
+    \caption{}
+    \label{fig:assem_dh}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{assem_act.png}
+    \caption{}
+    \label{fig:assem_act}
+\end{figure}
+
+Table \ref{tab:wm} shows the decay heat and activity value
+comparison in years 2020, 2100, and 3100. The total
+error is less than 1.1\% for all metrics at all time periods.
+Figure \ref{fig:ha_err} shows the relative error percentage
+of activity and decay heat progression in time. It shows
+that the model outperforms the average recipe method
+in predicting waste metrics.
+
+
 \begin{table}[h]
     \centering
     \begin{tabular}{lcrrr}
         \hline
         Metric & Year & HR case & Prediction case  & Error [\%] \\
         \hline
-        \multirow{3}{*}{\shortstack{Decay \\ Heat}} & 2020 & 41.01 & 40.83 & ???? \\
-                                                    & 2100 & ???? & ???? & ???? \\
-                                                    & 3100 & ???? & ???? & ???? \\
+        \multirow{3}{*}{\shortstack{Decay \\ Heat}} & 2020 & 41.01 & 40.83 & 0.43 \\
+                                                    & 2100 & 16.43 & 16.39 & 0.23 \\
+                                                    & 3100 & 3.14 & 3.13 & 0.085 \\
         \hline
-        \multirow{3}{*}{\shortstack{Activity}} & 2020 & 4.67e20 & 4.62e20 & ???? \\
-                                               & 2100 & ???? & ???? & ???? \\
-                                               & 3100 & ???? & ???? & ???? \\
+        \multirow{3}{*}{\shortstack{Activity}} & 2020 & 4.67e20 & 4.62e20 & 1.07 \\
+                                               & 2100 & 6.39e19 & 6.32e19 & 1.09 \\
+                                               & 3100 & 3.68e18 & 3.68e18 & 0.061 \\
         \hline
     \end{tabular}
     \caption{Decay heat and radioactivity values and errors for years 2020, 2100, and 3100.}
@@ -58,32 +179,11 @@ from nuclear reactors in the United States up to May of
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{fiss.png}
-    \caption{Effective Pu-239 mass value of \gls{UNF} inventory generated by
-             Unifed database, average recipe, and the prediction model. }
-    \label{fig:fiss}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{heat.png}
-    \caption{Decay heat of \gls{UNF} inventory generated by
-             Unifed database, average recipe, and the prediction model. }
-    \label{fig:heat}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{activity.png}
-    \caption{Activity of \gls{UNF} inventory generated by
-             Unifed database, average recipe, and the prediction model. }
-    \label{fig:activity}
-\end{figure}
-
-\begin{figure}
-    \centering
     \includegraphics[width=\textwidth]{ha_err.png}
     \caption{Relative error of waste management metrics for \gls{UNF} inventory
              generated by the average recipe, and the prediction model.}
     \label{fig:ha_err}
 \end{figure}
+
+
+\FloatBarrier

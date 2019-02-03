@@ -15,7 +15,7 @@ and decay heat.
 This work follows four steps:
 \begin{enumerate}
 \item Data curation
-\item Training model (with hyperparameter search)
+\item Training model (with hyperparameter optimization)
 \item Validation of model
 \item Implementing model in \Cyclus.
 \end{enumerate}
@@ -38,7 +38,7 @@ transportation infrastructure attributes, potential future
 facility attributes, and federal government radioactive
 waste attributes.
 
-============================================
+=========================GWEN=========================
 
 We received the database through personal contact
 with [] [how we got it and stuff]
@@ -49,7 +49,7 @@ list of assumptions from the \gls{UNF-STANDARDS} dataset.
     \item different assembly geometries?
 \end{itemize}
 
-============================================
+=========================GWENEND=========================
 
 Ideally, the data should be generated with exact same reactor
 parameters other than burnup and enrichment, such as geometry or
@@ -68,7 +68,21 @@ and reactor design, with regards to two-phase flow. (?!)
 We also filtered out the 
 `very low' enrichment (< 1.5) and burnup (< 10,000 MWdth/kg)
 assemblies to represent more modern \gls{PWR} \gls{UNF}
-assembly range.
+assembly range. Figure \ref{fig:enr_bu} shows the
+burnup and enrichment distribution of the assemblies in the
+\gls{UDB}.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{enr_bu.png}
+    \caption{Burnup and enrichment distribution of train
+             datasets curated from the \gls{UDB}.}
+    \label{fig:enr_bu}
+\end{figure}
+
+
+
 Also, the SCALE calculation in the \gls{UDB} only tracks 60 isotopes,
 and \textasciitilde 3\% of the \gls{UNF} is not accounted for. We
 aggregate the isotopes not accounted for as `others'. Lastly,
@@ -91,10 +105,10 @@ M_{initU} = \text{Mass of initial uranium in assembly}
 \]
 
 
-\subsection{Predictive Models}
+\subsection{Predictive Models for Fuel Depletion}
 
 Isotopic composition of \gls{UNF} is hard to predict due to their
-non-linear relationship with reactor parameters. For each
+non-linear relationship with fuel parameters. For each
 isotope, we plotted isotopic concentration values against
 burnup and enrichment to observe the relationship between
 burnup, enrichment, and isotope concentration.
@@ -118,17 +132,16 @@ and pandas for data processing and management.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/pu-239_sub}
-    \caption{Plutonium-239 composition in a \gls{UNF} assembly
+    \includegraphics[width=\textwidth]{pu-239_sub.png}
+    \caption{Plutonium-239 concentration in a \gls{UNF} assembly
              is not directly proportional to burnup, and is
              not related to initial enrichment.}
     \label{fig:pu_239}
 \end{figure}
 
-
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/cs-137_sub}
+    \includegraphics[width=\textwidth]{cs-137_sub.png}
     \caption{Cesium-137 concentration in a \gls{UNF} assembly
              has a linear relationship with assembly burnup.}
     \label{fig:cs_137}
@@ -136,8 +149,8 @@ and pandas for data processing and management.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{./isos/u-235_sub}
-    \caption{Uranium-235 composition in a \gls{UNF} assembly
+    \includegraphics[width=\textwidth]{u-235_sub.png}
+    \caption{Uranium-235 concentration in a \gls{UNF} assembly
              somewhat proportional to both enrichment and
              burnup, but is difficult to predict using
              a simple linear regression algorithm.}
@@ -183,7 +196,7 @@ as a file, the model can be used in any python
 application by loading the pickled file.
 
 
-\subsection{Testing Models}
+\subsection{Model Testing}
 
 The accuracy of the model is tested by comparing
 the model's prediction of \gls{UNF} composition
@@ -193,7 +206,17 @@ assembly with a specific burnup and enrichment.
 Second, we compare the waste characteristics of
 the assemblies for all assemblies. Third, we compare
 the predicted total \gls{PWR} \gls{UNF} inventory with
-\gls{UDB}.
+\gls{UDB}. The metric for error is calculated as
+relative error percentage, calculated by:
+\begin{equation}
+\epsilon = \frac{x_{data} - x_{model}}{x_{data}}
+\end{equation}
+
+This metric is to provide fair assessment to errors
+in predicting isotopes with minute concentration in \gls{UNF}.
+However, it should be noted that a large error percentage in the
+prediction of these minute isotopes does not necessarily mean
+that the absolute error is significantly large.
 
 Ideally, the model should be tested against data
 that is not part of the training data. However, given
@@ -215,3 +238,23 @@ A longer term application of interest could be using
 neural networks to optimize \gls{MSR} parameters
 such as reprocessing rate, flow rate, or fuel
 salt composition.????????
+
+
+\subsection{Model Application}
+
+The trained model can be exported to a file,
+that can be plugged into external codes. \Cyclus
+has a python interface that allows the developer
+to design archetypes in python. We developed a reactor
+module that behaves the similar to the Cycamore::Reactor,
+but calculates fuel depletion concentration using the
+imported model instead of a recipe. The user can vary
+burnup and enrichment for the first and last $n-1$ batches,
+where $n$ is the number of batches in the reactor. After
+$n-1$ batches, the reactor uses the last burnup and enrichment
+as an equilibrium.
+
+[So whats the significance? lol]
+
+
+\Cyclus implementation
