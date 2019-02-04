@@ -47,31 +47,19 @@ enrichment.
 that each reactor and fuel cycle facility is modeled as a discrete and independent
 player in the simulation.
 A \Cyclus agent archetype defines the logic that governs the behavior
-of an agent. In this simulation, the user defines the archetype's
+of an agent. 
+\Cyclus archetypes can be coded either with c++ or python.
+In this simulation, the user defines the archetype's
 parameters. The archetypes with user-defined parameters are then deployed
 as agent prototypes.  Encapsulating the \texttt{Facility} agents are the \texttt{Institution} and \texttt{Region}.
 A \texttt{Region} agent holds a set of \texttt{Institution}s. 
 An \texttt{Institution} agent can deploy or decommission \texttt{Facility} agents.
-
-Several versions of \texttt{Institution}
-and \texttt{Region} agents exist, varying in complexity and purpose \cite{huff_extensions_2014}.
-\texttt{DeployInst}, which deploys agents at user-defined timesteps, serves
-as the main \texttt{Institution} archetype in this work. All reactor \texttt{Facility} agents,
-fuel reprocessing, and fabrication \texttt{Facility} agents
-are deployed through \texttt{DeployInst}, while basic fuel cycle \texttt{Facility} agents
-such as sink, source, enrichment, and storage facilities are deployed 
-through \texttt{NullInst}, which simply deploys \texttt{Facility}
-agents at the beginning of the simulation.
 
 At each timestep,
 agents make requests for materials or bid to supply them and exchange
 with one another. A market-like mechanism called the dynamic resource exchange
 \cite{gidden_methodology_2016} governs the exchanges.
 For output analysis, each material resource has a quantity, composition, name, and a unique identifier.
-
-In this work, each nation is represented as a \texttt{Region} agent,
-that contains \texttt{Institution} agents, which deploy \texttt{Facility} 
-agents according to a user-defined deployment scheme.
 
 Cyclus has multiple advantages over other available
 \gls{NFC} simulation codes including open-source distribution, modularity,
@@ -110,12 +98,8 @@ calculations.
     \label{fig:core}
 \end{figure}
 
-Within the \Cyclus kernel, the \gls{DRE} connects
-the framework and the agents by mediating agent material
-offers and requests.
-The kernel solves the multicommodity exchange problem
-posed by the material offers and requests and executes
-the transaction between two agents.
-
-\Cyclus archetypes could also be coded with Python,
-allowing the created model to be plugged into the archetype.
+Due to this modularity in the \Cyclus framework, the developed
+model in this work can be implemented independently without
+having to modify the \Cyclus source code. The new facility archetype
+is simply written with the \Cyclus API, and imported in a
+\Cyclus simulation.
