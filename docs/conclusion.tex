@@ -1,4 +1,25 @@
 \section{Conclusion}
+This work shows that fuel cycle analyses can be improved
+by using a well-trained predictive model. The neural
+network model predicted the \gls{UNF} inventory
+with less than 5\% for individual isotopes,
+less than 1\% for waste profile 
+and less than 2\% for the fissile quality.
+The predictive model outperformed the average recipe
+method in every metric.
+
+This work also shows that quick, open-source depletion models
+can be implemented using trained models, from
+complex, inaccessible depletion algorithms and
+datasets. \gls{NFC} simulators struggle to find a balance
+between fidelity and rapidity. Using high-fidelity
+models become prohibitively computationally expensive
+since \gls{NFC} simulators may need to run
+hundreds of depletion calculations for multiple
+facilities. On the other hand, using simpler methods
+like recipes are overly simplified solutions.
+A well-trained predictive algorithm can find middle
+ground between rapidity and fidelity.
 
 We cannot avoid the criticism that the model is validated
 against the dataset used to train the model. However, the purpose
@@ -8,6 +29,15 @@ and large in size. On the other hand, the pickled file that contains
 the model and data scaling objects is only 38.2 kB, meaning that it
 can be easily distributed and imported in external software.
 
-For the purpose of having an accessible
-depletion model, this method holds promise.
+[cringe]
 
+It is noteworthy that there are not a lot of accessible data in the
+nuclear engineering discipline. Large-scale depletion
+calculation results like the \gls{UDB} are exceptional
+but rare cases. The value of data is exponentially increasing,
+with the advancement of data science and machine learning.
+For the long-term advancement of the field, maybe we should
+consider collecting and storing more data and results in
+a central repository, for the betterment of the field.
+
+[cringe]

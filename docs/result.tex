@@ -1,9 +1,8 @@
 \section{Results}
 
 The model performed better than using the average
-recipe in predicting the U.S. \gls{UNF}. However,
-the model underperformed in predicting uranium-235
-and uranium-238.
+recipe in predicting the U.S. \gls{UNF}, except
+for uranium-235 and uranium 238. 
 
 
 \subsection{Depletion Calculation Time and File Size}
@@ -34,7 +33,9 @@ generally has a high relative error percentage for Ra-226
 (average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes. It should
 be noted that the absolute prediction error is quite small
 (\textasciitilde 1e-11), but the percent error is large due
-to the small value of the data.
+to the small value of the data. There was not a notable
+difference in the error values for enrichment
+and burnup variations.
 
 \begin{figure}
     \centering
@@ -65,7 +66,6 @@ to the small value of the data.
              }
     \label{fig:40_29933}
 \end{figure}
-    
 
 \begin{figure}
     \centering
@@ -77,11 +77,23 @@ to the small value of the data.
 
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
-In this section we compare three values:
+In this section we compare three \gls{UNF} inventories.
+The inventories are acquired by using the assembly mass data
+in the \gls{UDB}. The only difference is the composition of the
+assemblies. The three different inventories acquire the recipe by:
 \begin{enumerate}
-    \item \gls{UNF} inventory 
+    \item Data: simply importing from database
+    \item Prediction: model prediction of composition using burnup and enrichment from database
+    \item Recipe: using average recipe (for all assemblies)
 \end{enumerate}
 
+We compare the three inventories on the three
+metrics:
+\begin{enumerate}
+    \item Isotopic inventory
+    \item Waste metrics (activity and decay heat)
+    \item Equivalent fissile inventory (equivalent pu-239)
+\end{enumerate}
 
 The Unified database contains discharged assembly data
 from nuclear reactors in the United States up to May of
@@ -103,27 +115,25 @@ from nuclear reactors in the United States up to May of
         Activity [Bq] & $2.79e21$ & $2.15e21$ & $2.74e21$ \\
         \hline
     \end{tabular}
-    \caption{Comparison of \gls{PWR} \gls{UNF} inventory in the U.S.,
-             using the Unified database.}
+    \caption{Comparison of \gls{PWR} \gls{UNF} inventory in the U.S.}
 \end{table}
 
+\FloatBarrier
 
 \subsubsection{Isotope Inventory}
 
 Comparing the isotope inventory, the model outperforms the
-average recipe method for all isotopes save uranium-235 and
-uranium-238. Figure \ref{fig:iso_rel} shows the relative
-error between the full database and model prediction for
+average recipe method for all isotopes.
+Figure \ref{fig:iso_rel} shows the relative
+error between the full database, model prediction, and
+average recipe for
 major isotopes. For plutonium isotopes, the model far
-outperforms the average database. In general, as expected,
-the model outperforms isotopes that are sensitive to burnup
-than the average recipe method.
-
+outperforms the average database.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{iso_rel.png}
-    \caption{}
+    \caption{Relative error percentage of important isotopes}
     \label{fig:iso_rel}
 \end{figure}
 
@@ -131,10 +141,11 @@ than the average recipe method.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{pu_rel.png}
-    \caption{}
+    \caption{Relative error percentage for plutonium isotopes.}
     \label{fig:pu_rel}
 \end{figure}
 
+\FloatBarrier
 
 
 \subsubsection{Waste Metric}
@@ -142,13 +153,20 @@ The model excellently predicts the waste metrics activity
 and decay heat. Figures \ref{fig:assem_dh} and \ref{fig:assem_act}
 show the relative error percent of the decay heat and activity
 predictions per assembly. The model predicts most assemblies
-with an error less than 1\%, except for assemblies with low burnup.
+with an error less than 1\%, except for assemblies with low
+burnup.
+Figures \ref{fig:assem_dh_recipe} and
+\ref{fig:assem_act_recipe} show the relative error percent
+of the decay heat and activity from the average recipe.
+As shown the error is higher as the point is farther from
+the average burnup and enrichment.
 
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{assem_dh.png}
-    \caption{}
+    \caption{Relative error percentage for predicting the decay
+             heat of individual assemblies.}
     \label{fig:assem_dh}
 \end{figure}
 
@@ -156,9 +174,34 @@ with an error less than 1\%, except for assemblies with low burnup.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{assem_act.png}
-    \caption{}
+    \caption{Relative error percentage for predicting the
+             activity of individual assemblies.}
     \label{fig:assem_act}
 \end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{assem_dh_recipe.png}
+    \caption{Relative error percentage for decay heat
+             of the average recipe
+             method. The red point is the average enrichment and
+             burnup.}
+    \label{fig:assem_dh_recipe}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{assem_act_recipe.png}
+    \caption{Relative error percentage for activity
+             of the assembly of the average recipe
+             method. The red point is the average enrichment and
+             burnup.}
+    \label{fig:assem_act_recipe}
+\end{figure}
+
+\FloatBarrier
+
 
 Table \ref{tab:wm} shows the decay heat and activity value
 comparison in years 2020, 2100, and 3100. The total
@@ -173,7 +216,7 @@ in predicting waste metrics.
     \centering
     \begin{tabular}{lcrrr}
         \hline
-        Metric & Year & HR case & Prediction case  & Error [\%] \\
+        Metric & Year & Data & Prediction  & Error [\%] \\
         \hline
         \multirow{3}{*}{\shortstack{Decay \\ Heat}} & 2020 & 41.01 & 40.83 & 0.43 \\
                                                     & 2100 & 16.43 & 16.39 & 0.23 \\
@@ -196,25 +239,53 @@ in predicting waste metrics.
     \label{fig:ha_err}
 \end{figure}
 
+\FloatBarrier
 
-\subsubsection{Fissile quantity}
+\subsubsection{Assembly fissile quality}
+
+Fissile quality is calculated as a metric called
+equivalent plutonium-239, shown in figure \ref{fig:pu_equiv} \cite{anon_plutonium_1989}. This value is
+calculated by aggregating the weighted fissile
+values of each isotope in an \gls{UNF}.
+For example, the equivalent fissile value for
+an \gls{LWR} will be calculated by:
+\begin{equation}
+\text{Pu}_{eq} = 0.8(U_{235}) - (\text{Pu}_{238}) + (\text{Pu}_{239}) - 0.4(\text{Pu}_{240}) \\
+            + 1.3(\text{Pu}_{241}) - 1.4(\text{Pu}_{242}) - 2.2(\text{Am}_{241})
+\end{equation}
+Where the isotopes represent the mass of each isotope.
+
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{pu_equiv.png}
-    \caption{}
+    \caption{Equivalent factors of each isotope for
+             calculating equivalent Pu-239 value,
+             from \cite{anon_plutonium_1989}. Factors
+             are separated by reactor neutron spectrum
+             due to cross section variations in different
+             spectra.}
     \label{fig:pu_equiv}
 \end{figure}
 
+Figure \ref{fig:fiss} shows the fast equivalent Pu-239
+value of the \gls{UNF} inventory plotted over time.
+The trained model outperforms the recipe method. The
+initial falls for all three lines are due to the
+decay of plutonium 241, which has a half-life of
+14 years.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{fiss.png}
-    \caption{}
+    \caption{fast factors were used}
     \label{fig:fiss}
 \end{figure}
 
 
+
+
+\subsection{\Cyclus implementation}
 
 
 \FloatBarrier
