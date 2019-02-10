@@ -1,13 +1,13 @@
 \section{Results}
 
 The model performed better than using the average
-recipe in predicting the U.S. \gls{UNF}, except
-for uranium-235 and uranium 238. 
+recipe in predicting the U.S. \gls{UNF}, without
+a large increase in computational time.
 
 
 \subsection{Depletion Calculation Time and File Size}
 
-For 100 sets of
+For 100 random sets of
 burnup and enrichment depletion calculations,
 the model takes 0.12 seconds, while
 searching the database for an assembly
@@ -21,59 +21,64 @@ Ten burnup and enrichment data was picked at random from the \gls{UDB},
 and was compared with the model predictions, to observe
 two things:
 \begin{enumerate}
-    \item What isotope (or Z, A range) the model is good / bad 
+    \item What isotope (or Z, A range) the model is good / bad
         at predicting
     \item What burnup / enrichment range the model is good / bad
         at predicting
 \end{enumerate}
 
-Figures \ref{fig:211_28539}, \ref{fig:33_38632},
-\ref{fig:40_29933}, \ref{fig:432_52029} show that the model
+Figures \ref{fig:28_33681}, \ref{fig:324_33536},
+\ref{fig:349_40150}, and \ref{fig:401_47722}
+show that the model
 generally has a high relative error percentage for Ra-226
-(average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes. It should
-be noted that the absolute prediction error is quite small
-(\textasciitilde 1e-11), but the percent error is large due
+(average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes.
+The absolute prediction errors are quite small
+(\textasciitilde 1e-11), but the percent errors are large due
 to the small value of the data. There was not a notable
 difference in the error values for enrichment
 and burnup variations.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{2-11_28539-5.png}
-    \caption{Isotope by isotope prediction error percentage
-             plotted for a discrete burnup and enrichment.
-             }
-    \label{fig:211_28539}
-\end{figure}
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{3-3_38632-0.png}
-    \caption{Isotope by isotope prediction error percentage
-             plotted for a discrete burnup and enrichment.
-             }
-    \label{fig:33_38632}
-\end{figure}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{4-0_29933-0.png}
-    \caption{Isotope by isotope prediction error percentage
-             plotted for a discrete burnup and enrichment.
-             }
-    \label{fig:40_29933}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{4-32_52029-14.png}
+    \includegraphics[width=\textwidth]{2-8_33681-0.png}
     \caption{Isotope by isotope prediction error percentage
              plotted for a discrete burnup and enrichment.}
-    \label{fig:432_52029}
+    \label{fig:28_33681}
 \end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{3-24_33536-5.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:324_33536}
+\end{figure}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{3-49_40150-36.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:349_40150}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{4-01_47722-32.png}
+    \caption{Isotope by isotope prediction error percentage
+             plotted for a discrete burnup and enrichment.
+             }
+    \label{fig:401_47722}
+\end{figure}
+
+A general plot of 
+
 
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
@@ -293,8 +298,12 @@ We can simulate transition scenarios of different future
 burnup of \gls{LWR} fuel increases over time and how that
 affects transition time.
 
-Also, using this continuous prediction algorithm, we can
-randomize burnup of fuel from a range, which is difficult
-to achieve with a discrete recipe method.
+This model allows simulation of a dynamic \gls{PWR}, where
+the burnup, enrichment, cycle time and refuel time can be
+highly customizable. This capability allows a modeling of a
+\gls{PWR} fleet with varying performances, while the performance
+changes with time.
+
+[one single reactor with varying assemblies received and sent]
 
 \FloatBarrier
