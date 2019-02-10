@@ -103,3 +103,19 @@ model in this work can be implemented independently without
 having to modify the \Cyclus source code. The new facility archetype
 is simply written with the \Cyclus API, and imported in a
 \Cyclus simulation.
+
+\subsubsection{\Cycamore Recipe Reactor}
+\Cycamore is a library that consists of useful
+fuel cycle facility archetypes for \Cyclus. The
+recipe reactor in \Cycamore is a batch-wise reactor.
+A reactor core is consisted of multiple batches,
+and a batch is consisted of multiple assemblies.
+At startup, the reactor requests the entire core,
+which is consisted of user-defined number of assemblies.
+At every cycle, the reactor discharges and
+requests batches of fuel. Upon decommissioning,
+the reactor discharges all its fuel. The discharged
+fuel is transmutated to the user-defined recipe.
+No depletion calculation is performed. However,
+the user can define multiple recipes, and can define
+times to change the recipe from one to another.
