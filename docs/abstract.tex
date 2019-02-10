@@ -1,7 +1,7 @@
 \begin{abstract}
 
 We trained a neural network model
-to predict \gls{UNF} composition given initial enrichment
+to predict \gls{PWR} \gls{UNF} composition given initial enrichment
 and burnup.
 The model is trained using fuel depletion calculation
 data from the \gls{UNF-STANDARDS} \gls{UDB}.
@@ -11,13 +11,13 @@ predicted by the model with the \gls{UDB} \gls{UNF} inventory
 profile. Using the model yields less than 1.5\% error of
 \gls{UNF} inventory decay heat and activity, and less than
 5\% error for isotopic inventory. The neural network model
-takes 120 ms for a hundred depletion calculations.
+takes 0.12 seconds for 100 depletion calculations.
 
 We also implemented this model into \Cyclus, an agent-based
 \gls{NFC} simulator, to perform rapid, medium-fidelity
 \gls{PWR}
-depletion calculations. This model also allows discharge
-batches with varying burnup.
+depletion calculations. This model also allows discharge of
+batches with varying burnup assemblies.
 
 Since the original proprietary data cannot be retrieved from the model,
 this trained model allows open-source depletion capabilities to \gls{NFC}

@@ -1,1 +1,40 @@
 \section{Future Work}
+
+Methods used in this paper can be expanded into different
+realms. For example, the model
+could expand to depletion of \gls{MOX} fuels, taking
+into account varying uranium and plutonium concentrations.
+However, as mentioned above, little data is available
+for training a \gls{MOX} model, which means that a
+data-generating process, consisting of a high-fidelity
+depletion calculation of randomized \gls{MOX} fuel
+compositions within acceptable ranges of reactor
+criticality, will have to take place. After the data
+is generated, the neural network model can be trained
+to predict \gls{MOX} depletion.
+
+Another interesting application of this method is for
+\gls{MSR} parameter optimization. Current works on
+\glspl{MSR} consist of optimizing non-core operating
+parameters such as reprocessing scheme and flow rate.
+The difficulty in optimizing these values is that the
+fuel composition that is constantly flowing undergoes
+transmutation, and fuel transmutation calculations
+are usually computationally burdensome for \gls{MSR}
+simulations, considering that fuel is depleted and
+reprocessed continuously. Many models try semi-continuous
+models where the depletion-to-reprocessing time is
+very short (usually 3 days), which makes an
+\gls{MSR} lifetime simulation (if 60 years)
+require \textasciitilde 7300 depletion calculations.
+The computational burden
+makes it impossible to perform brute-force methods
+such as grid search of all possible parameters.
+However, if a quick depletion calculation was possible
+with a well-trained prediction model, the
+computational burden will dramatically decrease.
+Even though there are problems with generating enough
+training data, accuracy, and the model's ability to
+extrapolate, we believe that this approach can
+at least lead to a narrowing of promising parameter
+ranges.
