@@ -3,6 +3,78 @@
 Problem definition
 
 =========================GWEN=========================
+
+The \gls{NFC} is a complex system of facilities and material 
+mass flows that are combined to provide nuclear energy for use 
+in society, usually in the form of electricity 
+\cite{yacout_modeling_2005}. 
+\gls{NFC} simulators are system analysis tools used to investigate 
+issues related to the dynamics of a nuclear fuel cycle in both 
+high and low resolution. 
+An example of a high resolution element is the spent fuel 
+isotopic composition from a single fuel bundle, and an example 
+of a low resolution element is the total fuel utilization in 
+the system. 
+The intention behind the use of \gls{NFC} simulators is to develop 
+a better understanding of the dependence between various components 
+in the system and the effects of changes on the system. 
+Their goal is to assist in evaluating and improving potential 
+strategies for nuclear power development in terms of improving waste 
+management, economic competitiveness, etc \cite{yacout_modeling_2005}.   
+
+One of the major functionalities of a \gls{NFC} simulator is its 
+ability to transmute nuclear fuel in a reactor based on reactor 
+conditions such as burnup, enrichment, etc. 
+The transmutation results impact the accuracy of the \gls{UNF} 
+composition, and thus the capability of using the \gls{NFC} to 
+analyze the impact of a \gls{NFC} on variables such as waste profile.  
+
+Current fuel cycle simulator codes include \Cyclus, ORION, DYMOND 
+and VISION. 
+Each of these NFC simulators obtain transmutation results using 
+different methods. 
+Some of these codes have multiple methods for obtaining 
+transmutation results. 
+Table \cite{tab:nfc_code} shows a simple breakdown of the 
+transmutation methods available for each \gls{NFC} code. 
+
+\begin{table}[h]
+    \centering
+    \label{tab:nfc_code}
+    \begin{tabular}{lrrr}
+        \hline
+        \gls{NFC} code & Transmutation Methods Available \\
+        \hline
+        \Cyclus & Recipe and Library\\
+        ORION & Recipe and Library\\
+        DYMOND & Recipe \\
+        VISION & Recipe \\
+        \hline
+    \end{tabular}
+    \caption{\gls{NFC} Methods for transmutation in reactor module}
+\end{table}
+
+\Cyclus has three methods to obtain transmutation results. 
+
+ORION 
+
+DYMOND 
+
+VISION 
+
+There is essentially two overall types of methods to obtain transmutation 
+results: recipe method and library method. 
+The recipe method is a low fidelity method, while the library method is 
+a high fidelity method. 
+For \gls{NFC} simulators, striking a balance between fidelity 
+and computational cost is a key issue. 
+Using high fidelity models for century-long simulations 
+can result in impractical computational times; while using low fidelity 
+models can result in less accurate results. 
+
+
+
+
 \begin{itemize}
     \item definition of NFC
     \item Quickness vs accuracy
@@ -20,10 +92,7 @@ Since \gls{NFC} simulations
 involve many facilities, the fidelity and detail of modeling each
 facility are sacrificed for quickness. 
 
-One of the most crucial functionalities in a \gls{NFC}
-simulation is the transmutation of nuclear fuel in a reactor,
-which is directly related to the \gls{UNF} composition
-and waste / material profile.
+
 
 Depletion calculations for fuel cycle simulations in current
 \gls{NFC} simulators are either
