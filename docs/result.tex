@@ -11,13 +11,13 @@ For 100 random sets of
 burnup and enrichment depletion calculations,
 the model takes 0.15 seconds, while
 searching the database for an assembly
-with the closest burnup and enrichment (using Pandas read csv)
+with the closest burnup and enrichment (using Pandas)
 takes 21.8 seconds. Also, the pickled model file is only
-38 Kb, while the curated database (.csv) is 330 Mb.
+38 Kb, while the curated database (.csv) itself is 330 Mb.
 
 \subsection{Assembly Comparison}
 
-Ten burnup and enrichment data was picked at random from the \gls{UDB},
+Ten data points were picked at random from the \gls{UDB},
 and was compared with the model predictions, to observe
 two things:
 \begin{enumerate}
@@ -77,19 +77,18 @@ and burnup variations.
     \label{fig:401_47722}
 \end{figure}
 
-A general plot of 
-
 
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
 In this section we compare three \gls{UNF} inventories.
 The inventories are acquired by using the assembly mass data
 in the \gls{UDB}. The only difference is the composition of the
-assemblies. The three different inventories acquire the recipe by:
+assemblies. The three different inventories acquire the composition by:
+
 \begin{enumerate}
     \item Data: simply importing from database
     \item Prediction: model prediction of composition using burnup and enrichment from database
-    \item Recipe: using average recipe (for all assemblies)
+    \item Recipe: using average composition (for all assemblies)
 \end{enumerate}
 
 We compare the three inventories on the three
@@ -159,12 +158,7 @@ and decay heat. Figures \ref{fig:assem_dh} and \ref{fig:assem_act}
 show the relative error percent of the decay heat and activity
 predictions per assembly. The model predicts most assemblies
 with an error less than 1\%, except for assemblies with low
-burnup.
-Figures \ref{fig:assem_dh_recipe} and
-\ref{fig:assem_act_recipe} show the relative error percent
-of the decay heat and activity from the average recipe.
-As shown the error is higher as the point is farther from
-the average burnup and enrichment.
+burnup and high enrichment.
 
 
 \begin{figure}
@@ -183,6 +177,14 @@ the average burnup and enrichment.
              activity of individual assemblies.}
     \label{fig:assem_act}
 \end{figure}
+
+
+Figures \ref{fig:assem_dh_recipe} and
+\ref{fig:assem_act_recipe} show the relative error percent
+of the decay heat and activity from the average recipe.
+As shown the error is higher as the point gets farther from
+the average burnup and enrichment.
+
 
 
 \begin{figure}
@@ -258,7 +260,7 @@ an \gls{LWR} will be calculated by:
 \text{Pu}_{eq} = 0.8(U_{235}) - (\text{Pu}_{238}) + (\text{Pu}_{239}) - 0.4(\text{Pu}_{240}) \\
             + 1.3(\text{Pu}_{241}) - 1.4(\text{Pu}_{242}) - 2.2(\text{Am}_{241})
 \end{equation}
-Where the isotopes represent the mass of each isotope.
+Where the variables represent the mass of each isotope.
 
 
 \begin{figure}
