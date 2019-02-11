@@ -107,7 +107,7 @@ from nuclear reactors in the United States up to May of
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lrrr}
+    \begin{tabular}{l|r|rr}
         \hline
         Metric & Data & Recipe & Prediction \\
         \hline
@@ -292,18 +292,74 @@ decay of plutonium 241, which has a half-life of
 
 \subsection{\Cyclus implementation}
 
-Applications and use cases
+Implementing the model into \Cyclus allows a 
+reactor model where reactor parameters like discharge
+burnup, initial enrichment, cycle time, and power
+capacity is dynamic and customizable.
 
-We can simulate transition scenarios of different future
-burnup of \gls{LWR} fuel increases over time and how that
-affects transition time.
+The created archetype in \Cyclus allows users to define
+equations instead of numbers for reactor parameters.
+The user can define a enrichment burnup matrix for
+each assembly in each batch, and the burnup and enrichment
+values can be equations in time. This way, users can
+implement reactor facilities where the reactor parameters
+change in time.
 
-This model allows simulation of a dynamic \gls{PWR}, where
-the burnup, enrichment, cycle time and refuel time can be
-highly customizable. This capability allows a modeling of a
-\gls{PWR} fleet with varying performances, while the performance
-changes with time.
+Figures \ref{fig:cyclus_pu}
+and \ref{fig:cyclus_fp} show the discharge fuel composition
+of a reactor facility where we increased the discharge burnup
+from 33,000 to 71,710 MWd/kg over 25 discharge cycles.
+It should be noted that the model does not take into account
+the plausibility of such fuel depletion. For example, it
+would be nearly impossible for a  \gls{PWR} to burn 2\%
+enriched \gls{UOX} fuel to 70,000 MWd/kg.
 
-[one single reactor with varying assemblies received and sent]
+The user can also define dynamic
+cycle time and refueling time for the reactor model, as shown
+in figure \ref{fig:cyclus_time}.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/pu.png}
+    \caption{Plutonium isotope concentration in discharge fuel over discharge cycle. The model errors if the target burnup
+    is over the burnup listed in the training dataset.}
+    \label{fig:cyclus_pu}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/fp.png}
+    \caption{Fission product concentration in discharge fuel over discharge cycle. Increased discharge burnup leads to higher fission product concentration.}
+    \label{fig:cyclus_fp}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/cycle_time.png}
+    \caption{Discharge and refueling cycles can be defined as an equation of time in this reactor archetype.}
+    \label{fig:cyclus_time}
+\end{figure}
+
+\subsubsection{Applications and Use Cases}
+
+The capability to set dynamic reactor parameters
+allow simulation of various future transition scenarios
+that depend on \gls{UNF} inventory characteristics,
+such as \gls{MA} inventory. 
+Users can simulate future scenarios where the discharge
+burnup of reactors increases over time, and how that
+affects the \gls{MA} inventory, and how that affects
+transition speed. 
+
+Also, users can simulate potential
+power uprates in currently existing fleets, and
+estimate how that affects \gls{UNF} inventory. With
+advances in materials, reactors will have longer
+cycle times and higher fuel discharge burnups.
+This dynamic reactor model will be able to account
+for the changes in these reactor parameters.
 
 \FloatBarrier

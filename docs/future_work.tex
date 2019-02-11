@@ -1,15 +1,28 @@
 \section{Future Work}
 
-Methods used in this paper can be expanded into different
-realms. For example, the model
+A model is only as good as the data it is trained on.
+This work can be improved and expanded by generating
+more comprehensive depletion data that covers a wider
+range of enrichment and burnup ranges. An automated
+code can run SCALE ORIGEN to perform depletion calculations
+for a wide range of enrichment (0.7 - 4.99 \%) and burnup (0 - 80,000 MWd/MT),
+for a given assembly design. The results
+would then be parsed into a csv file and stored for
+training of a new model. This will allow better
+prediction of the model for higher burnups and `fringe'
+burnup-enrichment sets.
+
+Methods used in this paper can also be expanded into more
+complicated problems. For example, the method
 could expand to depletion of \gls{MOX} fuels, taking
 into account varying uranium and plutonium concentrations.
-However, as mentioned above, little data is available
+However, little data is available
 for training a \gls{MOX} model, which means that a
 data-generating process, consisting of a high-fidelity
 depletion calculation of randomized \gls{MOX} fuel
 compositions within acceptable ranges of reactor
-criticality, will have to take place. After the data
+criticality, similar to the process mentioned above,
+will have to take place. After the data
 is generated, the neural network model can be trained
 to predict \gls{MOX} depletion.
 

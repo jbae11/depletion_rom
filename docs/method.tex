@@ -144,7 +144,7 @@ and pandas for data processing and management.
     \centering
     \includegraphics[width=\textwidth]{pu-239_sub.png}
     \caption{Plutonium-239 concentration in a \gls{UNF} assembly
-             is not directly proportional to burnup, and is
+             is not linearly related to burnup, and is
              not related to initial enrichment.}
     \label{fig:pu_239}
 \end{figure}
@@ -245,7 +245,7 @@ calculations performed for a specific reactor design with
 constant operational parameters.
 
 
-\subsection{Model Application}
+\subsection{Model Implementation in \Cyclus}
 
 The trained model is exported to a file
 that can be plugged into external codes. \Cyclus
@@ -272,4 +272,4 @@ as vary fuel residence time and burnup with reactor
 lifetime or simulation time. Such capability will be
 useful in simulating \gls{UNF} inventory in the future,
 where the burnup of \gls{LWR} fuel will increase
-with the advancement of fuel technology.
+with advanced fuel technology.
