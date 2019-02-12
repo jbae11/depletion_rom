@@ -13,14 +13,14 @@ curated for ease of use in training the model.
 Second, we train the neural network using Keras \cite{collet_keras_2015}
 and Scikit-learn \cite{pedregosa_scikit-learn_2011},
 while using an outer loop to
-search for the optimized neural network set of hyperparameters,
+search for the optimized set of neural network hyperparameters,
 such as the number of hidden layers and nodes per layer.
 Third, we use the model to predict the U.S. \gls{UNF}
 inventory as specified in the \gls{UDB} and compare
 \gls{UNF} inventory metrics such as fissile content
 and decay heat. Lastly, we implement the trained
-model in \Cyclus by developing a facility archetype
-that perform depletion calculations with the model.
+model in \Cyclus by developing a reactor facility archetype
+that transmute fuel with the model.
 
 Codes used to generate and test the neural network
 model are all on Github (https://github.com/jbae11/depletion\_rom)
@@ -29,7 +29,8 @@ including the pickled neural network model file.
 \subsection{Train dataset}
 
 In order to train a depletion model, a large amount of
-depletion data is needed.
+depletion data is needed, that span the potential
+burnup and enrichment range in typical reactors.
 
 \subsubsection{Unified Database}
 The \gls{UDB} is part of a larger engineering
@@ -86,8 +87,8 @@ burnup and enrichment distribution of the assemblies in the
 
 
 Also, the SCALE calculation in the \gls{UDB} only tracks 60 isotopes,
-and an average of 3.5\% of the \gls{UNF} is not accounted for. We
-aggregate the isotopes not accounted for as `other'. Lastly,
+and an average of 3.5 weight percentage of the \gls{UNF} is not accounted for. We
+aggregate the isotopes not accounted for as a separate category. Lastly,
 we processed the database so that the isotopic compositions are 
 represented as \% weight from initial uranium mass, to normalize
 the dataset. For every isotope \textit{i}:
@@ -109,7 +110,7 @@ M_{initU} = \text{Mass of initial uranium in assembly}
 
 \subsection{Predictive Models for Fuel Depletion}
 
-Isotopic composition of \gls{UNF} is hard to predict due to their
+The isotopic composition of \gls{UNF} is hard to predict due to their
 non-linear relationship with fuel parameters. For each
 isotope, we plotted isotopic concentration values against
 burnup and enrichment to observe the relationship between
@@ -163,15 +164,17 @@ and pandas for data processing and management.
 
 \subsection{Training and Selecting Models}
 
-The input space (feature space) of the model is set to
-be burnup (MWd/kg) and initial enrichment (wt\% U-235).
-The output space (target space) of the model is set to
-be the concentration of the 60 isotopes in the
+The inputs (features) of the model are
+burnup (MWd/kg) and initial enrichment (wt\% U-235).
+The outputs (targets) of the model are
+the concentration (weight \%) of the 60 isotopes in the
 depleted assembly.
 
-With the curated dataset, we performed a three-fold
-cross validation on the training dataset to find the
-best-performing neural network hyperparameter. We
+With the curated dataset, we performed an outer loop
+search to find the best-performing neural network
+hyperparameter. We used a three-fold
+cross validation on the training dataset to
+measure the average loss value. We
 normalized the data using the sklearn MinMaxScaler
 so that the range of input and output data is (0,1).
 
