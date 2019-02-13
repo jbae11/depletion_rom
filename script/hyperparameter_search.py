@@ -77,35 +77,35 @@ def run_model(hidden_layers_=3,
         f = open('ann_model.pkl', 'wb')
         pickle.dump(model_dict, f)
         f.close()
+        return model_dict
     return param_dict, np.mean(cvscores)
 
 
-"""
-# 3 * 4 * 3 * 2 = 72 neural network models
+# 3 * 4 * 3 * 3 = 108 neural network models
 # *3 for 3-fold validation
 score_model_dict = {}
 for _hidden_layers in range(1,4):
     for _node_per_hidden_layer in [4, 8, 16, 32]:
         for _dropout_rate in [0, 0.2, 0.5]:
-            for _output_activation in ['linear', 'sigmoid']:
+            for _output_activation in ['linear', 'sigmoid', 'softmax']:
                 param_dict, score = run_model(hidden_layers_=_hidden_layers,
                                               node_per_hidden_layer_= _node_per_hidden_layer,
                                               dropout_rate_=_dropout_rate,
                                               output_activation_=_output_activation,
-                                              epochs_=10)
+                                              epochs_=500)
                 score_model_dict[score] = param_dict
                 f = open('ann.pkl', 'wb')
                 pickle.dump(score_model_dict, f)
                 f.close()
 
-print(score_model_dict)
-"""
-
-param_dict, score = run_model(hidden_layers_=3,
-                              node_per_hidden_layer_=16,
-                              dropout_rate_=0,
-                              output_activation_='linear',
-                              epochs_=150,
-                              batch_size_=50,
-                              return_model=True)
-print(param_dict, score)
+# find parameters with smallest error value
+min_key = min(score_model_dicts.keys())
+best_param_dict = score_model_dicts[min_key]
+model_dict = run_model(hidden_layers_=best_param_dict['hidden_layers'],
+                       node_per_hidden_layer_=best_param_dict['node_per_hidden_layer'],
+                       dropout_rate_=best_param_dict['dropout_rate'],
+                       output_activation_=best_param_dict['output_activation'],
+                       epochs_=best_param_dict['epochs'],
+                       batch_size=best_param_dict['batch_size'],
+                       return_model=True)
+print(model_dict)
