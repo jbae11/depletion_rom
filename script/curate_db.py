@@ -16,7 +16,7 @@ def get_assem_comp_dict(assem_dict, assem_df, assem_mass_kg):
 def get_first_from_column(df, column_name):
     return np.array(df[column_name])[0]
 
-df = pd.read_csv('./db/udb_1yr.dat', sep='\t')
+df = pd.read_csv('../db/udb_1yr.dat', sep='\t')
 
 assembly_ids = np.unique(df['assembly_id'])
 n_assem = len(assembly_ids)
