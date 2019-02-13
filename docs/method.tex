@@ -20,7 +20,7 @@ inventory as specified in the \gls{UDB} and compare
 \gls{UNF} inventory metrics such as fissile content
 and decay heat. Lastly, we implement the trained
 model in \Cyclus by developing a reactor facility archetype
-that transmute fuel with the model.
+that transmutes fuel using the model.
 
 Codes used to generate and test the neural network
 model are all on Github (https://github.com/jbae11/depletion\_rom)
@@ -86,8 +86,8 @@ burnup and enrichment distribution of the assemblies in the
 \end{figure}
 
 
-Also, the SCALE calculation in the \gls{UDB} only tracks 60 isotopes,
-and an average of 3.5 weight percentage of the \gls{UNF} is not accounted for. We
+Also, the SCALE calculation in the \gls{UDB} only tracks 60 isotopes
+and an average of 3.5 weight percent of the \gls{UNF} is not accounted for. We
 aggregate the isotopes not accounted for as a separate category. Lastly,
 we processed the database so that the isotopic compositions are 
 represented as \% weight from initial uranium mass, to normalize
@@ -191,7 +191,7 @@ so that the range of input and output data is (0,1).
     \end{tabular}
     \caption{Table of hyperparameters tested
              for neural network model. The bolded
-             numbers are values chosen for the final model.}
+             numbers are the values we used for the final model.}
 \end{table}
 
 The model with the smallest average loss value
@@ -218,7 +218,7 @@ relative error percentage, calculated by:
 \epsilon = \frac{x_{data} - x_{model}}{x_{data}}
 \end{equation}
 
-This metric is to provide fair assessment to errors
+This metric is to provide a fair assessment to errors
 in predicting isotopes with minute concentration in \gls{UNF}.
 However, it should be noted that a large error percentage in the
 prediction of these minute isotopes is mostly because it has been
@@ -254,21 +254,21 @@ The trained model is exported to a file
 that can be plugged into external codes. \Cyclus
 has a python interface that allows the developer
 to design archetypes in python. We developed a reactor
-module that behaves the similar to the recipe reactor,
+module that behaves the similar to the recipe reactor
 but calculates depleted fuel concentration using the
 imported model instead of a recipe. The user can vary
 individual assembly burps. The user defines a burnup
 and enrichment
 matrix for the reactor where the rows are the number
-of batches, and the the columns are number of
+of batches, and the columns are the number of
 assemblies in a batch. This reactor module is also
 available on Github 
 (https://github.com/jbae11/ann\_pwr)
 
-This sort of implementation can be done roughly with
+This sort of implementation can be done with
 the recipe reactor if the user defines multiple
-output recipes. However, the user cannot vary the
-burnup or enrichment of the individual assemblies.
+output recipes. However, the user can only define
+the recipe of a batch.
 Implementing the model will allow the user to vary
 burnup and enrichment for individual assemblies, as well
 as vary fuel residence time and burnup with reactor

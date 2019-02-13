@@ -12,13 +12,14 @@ burnup and enrichment depletion calculations,
 the model takes 0.15 seconds, while
 searching the database for an assembly
 with the closest burnup and enrichment (using Pandas)
-takes 21.8 seconds. Also, the pickled model file is only
+takes 21.8 seconds. 100 \gls{ORIGEN} calculations
+take 118 seconds. Also, the pickled model file is only
 38 Kb, while the curated database (.csv) itself is 330 Mb.
 
 \subsection{Assembly Comparison}
 
 Ten data points were picked at random from the \gls{UDB},
-and was compared with the model predictions, to observe
+and were compared with the model predictions, to observe
 two things:
 \begin{enumerate}
     \item What isotope (or Z, A range) the model is good / bad
@@ -33,7 +34,7 @@ show that the model
 generally has a high relative error percentage for Ra-226
 (average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes.
 The absolute prediction errors are quite small
-(\textasciitilde 1e-11), but the percent errors are large due
+(\textasciitilde 1e-11), but the percent errors are largely due
 to the small value of the data. There was not a notable
 difference in the error values for enrichment
 and burnup variations.
@@ -80,7 +81,7 @@ and burnup variations.
 
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
-In this section we compare three \gls{UNF} inventories.
+In this section, we compare three \gls{UNF} inventories.
 The inventories are acquired by using the assembly mass data
 in the \gls{UDB}. The only difference is the composition of the
 assemblies. The three different inventories acquire the composition by:
@@ -96,7 +97,7 @@ metrics:
 \begin{enumerate}
     \item Isotopic inventory
     \item Waste metrics (activity and decay heat)
-    \item Equivalent fissile inventory (equivalent pu-239)
+    \item Equivalent fissile inventory (equivalent Pu-239)
 \end{enumerate}
 
 The Unified database contains discharged assembly data
@@ -130,7 +131,7 @@ Comparing the isotope inventory, the model outperforms the
 average recipe method for all isotopes.
 Figure \ref{fig:iso_rel} shows the relative
 error between the full database, model prediction, and
-average recipe for
+the average recipe for
 major isotopes. For plutonium isotopes, the model far
 outperforms the average database.
 
@@ -153,11 +154,11 @@ outperforms the average database.
 
 
 \subsubsection{Waste Metric}
-The model excellently predicts the waste metrics activity
+The model excellently predicts waste metrics activity
 and decay heat. Figures \ref{fig:assem_dh} and \ref{fig:assem_act}
 show the relative error percent of the decay heat and activity
 predictions per assembly. The model predicts most assemblies
-with an error less than 1\%, except for assemblies with low
+with an error of less than 1\%, except for assemblies with low
 burnup and high enrichment.
 
 
@@ -211,7 +212,7 @@ the average burnup and enrichment.
 
 
 Table \ref{tab:wm} shows the decay heat and activity value
-comparison in years 2020, 2100, and 3100. The total
+comparison in the years 2020, 2100, and 3100. The total
 error is less than 1.1\% for all metrics at all time periods.
 Figure \ref{fig:ha_err} shows the relative error percentage
 of activity and decay heat progression in time. It shows
@@ -253,7 +254,7 @@ in predicting waste metrics.
 Fissile quality is calculated as a metric called
 equivalent plutonium-239, shown in figure \ref{fig:pu_equiv} \cite{anon_plutonium_1989}. This value is
 calculated by aggregating the weighted fissile
-values of each isotope in an \gls{UNF}.
+values of each isotope in a \gls{UNF}.
 For example, the equivalent fissile value for
 an \gls{LWR} will be calculated by:
 \begin{equation}
@@ -301,7 +302,7 @@ capacity is dynamic and customizable.
 
 The created archetype in \Cyclus allows users to define
 equations instead of numbers for reactor parameters.
-The user can define a enrichment burnup matrix for
+The user can define an enrichment-burnup matrix for
 each assembly in each batch, and the burnup and enrichment
 values can be equations in time. This way, users can
 implement reactor facilities where the reactor parameters
