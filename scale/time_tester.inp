@@ -1,0 +1,21 @@
+=origen
+case(irrad) {
+    lib{
+        file="w17x17_100d.f33" pos=1
+    }
+    mat {
+        units=GRAMS
+        iso=[u235=38173.999800 u238=961826.000200]
+    }
+    time = [ 550 ]
+    power = [ 68.447635 ]
+}
+case (decay) {
+    time {
+        units=YEARS
+        start=0
+        t=[1]
+    }
+    save{ file="discharge.f71" steps=[0 LAST]}
+}
+end
