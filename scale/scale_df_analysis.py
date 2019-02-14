@@ -85,7 +85,7 @@ def df_row_to_com_dict(df_row):
     assem_dict = {key: assem_dict[key] for key in assem_dict if key in iso_list}
     return assem_dict
 
-def read_scale_out(filename, after_decay=True):
+def read_scale_out(filename, after_decay=False):
     """ Returns composition dict from scale .out file
         key: isotope (e.g. pu-239)
         value: % mass
