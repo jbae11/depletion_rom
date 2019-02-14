@@ -1,0 +1,40 @@
+
+=arp
+'library type
+17x17
+3.500000
+' num cycles
+1
+' num days per cycle
+550
+' cycle average specific power (MW / MTU)
+38.567493
+' number of interpolated cross section sets generated per cycle
+1
+' moderator density (g/cc)
+0.723
+' interpolated output ORIGEN library
+w17x17_100d.f33
+end
+
+=origen
+case(irrad) {
+    lib{
+        file="w17x17_100d.f33" pos=1
+    }
+    mat {
+        units=GRAMS
+        iso=[u235=35000.000000 u238=965000.000000]
+    }
+    time = [ 550 ]
+    power = [ 38.567493 ]
+}
+case (decay) {
+    time {
+        units=YEARS
+        start=0
+        t=[1]
+    }
+    save{ file="discharge.f71" steps=[0 LAST]}
+}
+end
