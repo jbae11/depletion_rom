@@ -84,7 +84,7 @@ def read_scale_out(filename, after_decay=True):
         value: % mass
     """
 
-    file = open(fielname, 'r')
+    file = open(filename, 'r')
     lines = file.readlines()
     pr = False
     scale_dict = {}
