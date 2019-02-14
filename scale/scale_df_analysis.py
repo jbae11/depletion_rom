@@ -58,12 +58,19 @@ end"""%(assembly, enr, days, power, u235, u238, days, power)
 
 def run_scale(filepath, windows=False):
     print('Running:', filepath)
+    pwd = Path(os.path.dirname(os.path.realpath(__file__)))
     if windows:
-        pwd = Path(os.path.dirname(os.path.realpath(__file__)))
         filepath = str(pwd / filepath)
-    bash_list = ['C:\\SCALE-6.2.2\\bin\\scalerte', filepath]
-    process = subprocess.Popen(bash_list, stdout=subprocess.PIPE)
-    output, error = process.communicate()
+        bash_list = ['C:\\SCALE-6.2.2\\bin\\scalerte', filepath]
+        print(bash_list)
+        process = subprocess.check_output(bash_list, shell=True)
+    else:
+        filepath = str(pwd / filepath)
+        print(filepath)
+        bash_list = ('/home/teddy/Desktop/scale/SCALE-6.2.2/bin/scalerte', filepath)
+        print(bash_list)
+        popen = subprocess.Popen(bash_list, stdout=subprocess.PIPE)
+        popen.stdout.read()
 
 
 
