@@ -7,6 +7,7 @@ import pickle
 from sklearn.model_selection import KFold
 from keras.layers import Dropout
 from sklearn.preprocessing import MinMaxScaler
+from keras import losses
 
 # grid search to find best hyperparameter
 # this takes extremely long (not even 25% done in 48 hours)
@@ -29,17 +30,15 @@ yscale = yscaler.transform(y)
 
 iso_list = list(all_dat.iloc[:, 5:])
 
-# kfold cross validation
-
-
 def run_model(hidden_layers_=3,
               node_per_hidden_layer_=4,
               dropout_rate_=0,
               output_activation_='linear',
-              epochs_=150,
+              epochs_=500,
               batch_size_=50,
               hidden_layer_activation_='relu',
-              return_model=False
+              return_model=False,
+              loss_function_='mse'
               ):
     cvscores = []
     kfold = KFold(n_splits=3)
@@ -59,7 +58,7 @@ def run_model(hidden_layers_=3,
             if dropout_rate_ != 0:
                 model.add(Dropout(dropout_rate_))
         model.add(Dense(len(yscale[0]), activation=output_activation_))
-        model.compile(loss='mse', optimizer='adam',
+        model.compile(loss=loss_function_, optimizer='adam',
                       metrics=['mse', 'mae'])
         model.fit(xscale[train], yscale[train],
                   epochs=epochs_, batch_size=batch_size_,
@@ -69,6 +68,8 @@ def run_model(hidden_layers_=3,
         cvscores.append(scores[1] * 100)
     print('%.2f%% (+/- %.2f%%)' %(np.mean(cvscores), np.std(cvscores)))
     if return_model:
+        # so the model that eventually gets stored / used
+        # is only trained on 2/3 of data. 
         model_dict = {'model': model,
                       'xscaler': xscaler,
                       'yscaler': yscaler,
@@ -81,26 +82,51 @@ def run_model(hidden_layers_=3,
     return param_dict, np.mean(cvscores)
 
 
-# 3 * 4 * 3 * 3 = 108 neural network models
-# *3 for 3-fold validation
-score_model_dict = {}
-for _hidden_layers in range(1,4):
-    for _node_per_hidden_layer in [4, 8, 16, 32]:
-        for _dropout_rate in [0, 0.2, 0.5]:
-            for _output_activation in ['linear', 'sigmoid', 'softmax']:
-                param_dict, score = run_model(hidden_layers_=_hidden_layers,
-                                              node_per_hidden_layer_= _node_per_hidden_layer,
-                                              dropout_rate_=_dropout_rate,
-                                              output_activation_=_output_activation,
-                                              epochs_=500)
-                score_model_dict[score] = param_dict
-                f = open('ann.pkl', 'wb')
-                pickle.dump(score_model_dict, f)
-                f.close()
 
-# find parameters with smallest error value
-min_key = min(score_model_dicts.keys())
-best_param_dict = score_model_dicts[min_key]
+
+def hyperparameter_search(hidden_layers_list=range(1,5),
+                          node_per_hidden_list=[4, 8, 16, 32],
+                          dropout_rate_list=[0, 0.2, 0.5],
+                          output_activation_list=['linear', 'softmax', 'sigmoid'],
+                          epochs_list=[500],
+                          batch_size_list=[50],
+                          hidden_layer_activation_list=['relu'],
+                          loss_function='mse'):
+    score_model_dict = {}
+    for _hidden_layers in hidden_layers_list:
+        for _node_per_hidden_layer in node_per_hidden_list:
+            for _dropout_rate in dropout_rate_list:
+                for _output_activation in output_activation_list:
+                    for _epochs in epochs_list:
+                        for _batch_size in batch_size_list:
+                            for _hidden_layer_activation in hidden_layer_activation_list:
+                                param_dict, score = run_model(hidden_layers_=_hidden_layers,
+                                                              node_per_hidden_layer_= _node_per_hidden_layer,
+                                                              dropout_rate_=_dropout_rate,
+                                                              output_activation_=_output_activation,
+                                                              epochs_=_epochs,
+                                                              batch_size_=_batch_size,
+                                                              hidden_layer_activation_=_hidden_layer_activation,
+                                                              loss_function_=loss_function)
+                                score_model_dict[score] = param_dict
+                                f = open('ann.pkl', 'wb')
+                                pickle.dump(score_model_dict, f)
+                                f.close()
+    min_key = min(score_model_dict.keys())
+    best_param_dict = score_model_dict[min_key]
+    print('Best performing hyperparameter set:\n', best_param_dict)
+    return best_param_dict
+
+
+best_param_dict = hyperparameter_search(hidden_layers_list=range(1,5),
+                                        node_per_hidden_list=[4, 8, 16, 32],
+                                        dropout_rate_list=[0],
+                                        output_activation_list=['linear'],
+                            2            epochs_list=[500],
+                                        batch_size_list=[50],
+                                        hidden_layer_activation_list=['relu'],
+                                        loss_function=losses.mean_absolute_percentage_error)
+
 model_dict = run_model(hidden_layers_=best_param_dict['hidden_layers'],
                        node_per_hidden_layer_=best_param_dict['node_per_hidden_layer'],
                        dropout_rate_=best_param_dict['dropout_rate'],
@@ -108,4 +134,5 @@ model_dict = run_model(hidden_layers_=best_param_dict['hidden_layers'],
                        epochs_=best_param_dict['epochs'],
                        batch_size=best_param_dict['batch_size'],
                        return_model=True)
-print(model_dict)
+
+print('Finished! The final file is ann_model.pkl')
