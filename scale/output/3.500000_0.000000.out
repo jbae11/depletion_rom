@@ -1,0 +1,472 @@
+ *******************************************************************************
+ *                                                                             *
+ *                                 SCALE 6.2.2                                 *
+ *                                -------------                                *
+ *                                February 2019                                *
+ *                                                                             *
+ *           SCALE:  A Comprehensive Modeling and Simulation Suite             *
+ *                   for Nuclear Safety Analysis and Design                    *
+ *                                                                             *
+ *                      Reactor and Nuclear Systems Division                   *
+ *                        Oak Ridge National Laboratory                        *
+ *                                                                             *
+ *                           http://scale.ornl.gov                             *
+ *                            scalehelp@ornl.gov                               *
+ *                                                                             *
+ *******************************************************************************
+ *******************************************************************************
+      
+                  Job Information
+                  ---------------
+      Job started on DESKTOP-J14NAA6 on Wed 13/02/2019 18:33:01
+      Working directory: C:\Users\Teddy\AppData\Local\Temp\scale.Teddy.6988
+      Input file name  : C:\Users\Teddy\Desktop\scale_test\output\3.500000_0.000000.inp
+      Output file name : C:\Users\Teddy\Desktop\scale_test\output\3.500000_0.000000.out
+      SCALE executable : C:\SCALE-6.2.2/bin/scale
+      
+ *******************************************************************************
+
+
+    module arp will be called on Wed Feb 13 18:33:01 2019.
+    sequence specification record:=arp
+Input Data:
+
+      'library type
+      w17x17
+      3.500000
+      ' num cycles
+      1
+      ' num days per cycle
+      550
+      ' cycle average specific power (MW / MTU)
+      0.000000
+      ' number of interpolated cross section sets generated per cycle
+      1
+      ' moderator density (g/cc)
+      0.723
+      ' interpolated output ORIGEN library
+      w17x17_100d.f33
+end
+
+1
+
+
+
+
+
+
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                       program verification information                                       *****
+        *****                                                                                                              *****
+        *****                                   code system:  SCALE    version:  6.2                                       *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****              program:  arp.exe                                                                               *****
+        *****                                                                                                              *****
+        *****        creation date:   unknown                                                                              *****
+        *****                                                                                                              *****
+        *****              library:  C:\SCALE-6.2.2\bin                                                                    *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****            prod code:  arp.exe                                                                               *****
+        *****                                                                                                              *****
+        *****              version:  6.2.2                                                                                 *****
+        *****                                                                                                              *****
+        *****              jobname:  Teddy                                                                                 *****
+        *****                                                                                                              *****
+        *****         machine name:  DESKTOP-J14NAA6                                                                       *****
+        *****                                                                                                              *****
+        *****    date of execution:  13_feb_2019                                                                           *****
+        *****                                                                                                              *****
+        *****    time of execution:  18:33:01.92                                                                           *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+
+
+ 'library type
+    data library:       w17x17
+       directory:       C:/SCALE-6.2.2/data/\arplibs
+       definition:      C:/SCALE-6.2.2/data/\arpdata.txt
+    u-235 enrichment:                        3.500
+
+ ' num cycles
+    number of cycles:                            1
+
+ ' num days per cycle
+
+ ' cycle average specific power (MW / MTU)
+
+ ' number of interpolated cross section sets generated per cycle
+
+ ' moderator density (g/cc)
+    water density (g/cm3):                  0.7230
+                                         cycle        cumulative      midpoint
+   cycle time(d)        power(MW)      burnup(MWd/MTU)burnup(MWd/MTU)burnup(MWd/MTU)nlib
+     1    550.000        0.00000        0.00000        0.00000        0.00000             1
+
+ ' interpolated output ORIGEN library
+    interpolated library name:                   w17x17_100d.f33
+ interpolation type: spline
+ Cross section library interpolation completed.
+.
+.
+.
+=========================================================================================================================
+ARP finished successfully.
+=========================================================================================================================
+    module arp used 1.77282 seconds cpu time for the current pass.
+
+    module arp is finished. completion code    0. total cpu time used 1.16633e-005 seconds.
+
+
+
+    module origen will be called on Wed Feb 13 18:33:03 2019.
+    sequence specification record:=origen
+Input Data:
+
+      case(irrad) {
+          lib{
+              file="w17x17_100d.f33" pos=1
+          }
+          mat {
+              units=GRAMS
+              iso=[u235=35000.000000 u238=965000.000000]
+          }
+          time = [ 550 ]
+          power = [ 0.000000 ]
+      }
+      case (decay) {
+          time {
+              units=YEARS
+              start=0
+              t=[1]
+          }
+          save{ file="discharge.f71" steps=[0 LAST]}
+      }
+end
+
+1
+
+
+
+
+
+
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                       program verification information                                       *****
+        *****                                                                                                              *****
+        *****                                   code system:  SCALE    version:  6.2                                       *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****              program:  origen.exe                                                                            *****
+        *****                                                                                                              *****
+        *****        creation date:   unknown                                                                              *****
+        *****                                                                                                              *****
+        *****              library:  C:\SCALE-6.2.2\bin                                                                    *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****            prod code:  origen.exe                                                                            *****
+        *****                                                                                                              *****
+        *****              version:  6.2.2                                                                                 *****
+        *****                                                                                                              *****
+        *****              jobname:  Teddy                                                                                 *****
+        *****                                                                                                              *****
+        *****         machine name:  DESKTOP-J14NAA6                                                                       *****
+        *****                                                                                                              *****
+        *****    date of execution:  13_feb_2019                                                                           *****
+        *****                                                                                                              *****
+        *****    time of execution:  18:33:03.70                                                                           *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    USER INPUT SUMMARY                                           ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+=========================================================================================================================
+=   Case "irrad" (#1/2)                                                                                                 =
+-------------------------------------------------------------------------------------------------------------------------
+###   Library settings                                                                                                ###
+.
+                                Library file name:     C:/Users/Teddy/AppData/Local/Temp/scale.Teddy.6988/w17x17_100d.f33
+                             Library set position:              1
+                 Fission product reaction removal:             no
+-------------------------------------------------------------------------------------------------------------------------
+###   Global settings                                                                                                 ###
+.
+                                           Solver:              MATREX
+                                             Mode:        forward
+                             Fixed fission energy:             no
+-------------------------------------------------------------------------------------------------------------------------
+###   Concentrations output options                                                                                   ###
+.
+                            High-precision output:             no
+                                  Relative cutoff:            yes
+                         Step for applying cutoff:       integral
+.
+                      light els.   actinides  fis.prods.       total
+                       nuc    el   nuc    el   nuc    el   nuc    el             cutoff
+gram-atoms                                                                    1.000E-06
+grams                                                      **                 1.000E-06
+curies                                                                        1.000E-06
+watts                                                                         1.000E-06
+gamma watts                                                                   1.000E-06
+m3 air                                                                        1.000E-06
+m3 water                                                                      1.000E-06
+grams ppm                                                                     1.000E-06
+atoms ppm                                                                     1.000E-06
+atoms/barn-cm                                                                 1.000E-06
+becquerels                                                                    1.000E-06
+-------------------------------------------------------------------------------------------------------------------------
+###   Additional output options                                                                                       ###
+.
+                                      Print k-inf:             no
+           Nuclides for absorption fraction print:           none
+                              Print fission rates:             no
+            Step for sorting absorption fractions:              1
+=========================================================================================================================
+=   Case "decay" (#2/2)                                                                                                 =
+-------------------------------------------------------------------------------------------------------------------------
+###   Library settings                                                                                                ###
+.
+                                Library file name:     C:/Users/Teddy/AppData/Local/Temp/scale.Teddy.6988/w17x17_100d.f33
+                             Library set position:              1
+                 Fission product reaction removal:             no
+-------------------------------------------------------------------------------------------------------------------------
+###   Global settings                                                                                                 ###
+.
+                                           Solver:              MATREX
+                                             Mode:        forward
+                             Fixed fission energy:             no
+-------------------------------------------------------------------------------------------------------------------------
+###   Concentrations output options                                                                                   ###
+.
+                            High-precision output:             no
+                                  Relative cutoff:            yes
+                         Step for applying cutoff:       integral
+.
+                      light els.   actinides  fis.prods.       total
+                       nuc    el   nuc    el   nuc    el   nuc    el             cutoff
+gram-atoms                                                                    1.000E-06
+grams                                                      **                 1.000E-06
+curies                                                                        1.000E-06
+watts                                                                         1.000E-06
+gamma watts                                                                   1.000E-06
+m3 air                                                                        1.000E-06
+m3 water                                                                      1.000E-06
+grams ppm                                                                     1.000E-06
+atoms ppm                                                                     1.000E-06
+atoms/barn-cm                                                                 1.000E-06
+becquerels                                                                    1.000E-06
+-------------------------------------------------------------------------------------------------------------------------
+###   Additional output options                                                                                       ###
+.
+                                      Print k-inf:             no
+           Nuclides for absorption fraction print:           none
+                              Print fission rates:             no
+            Step for sorting absorption fractions:              1
+=========================================================================================================================
+###   Blending information                                                                                            ###
+.
+  --- no blending requested in this job ---
+=========================================================================================================================
+.
+.
+=========================================================================================================================
+=   History overview for case 'irrad' (#1/2)                                                                            =
+-------------------------------------------------------------------------------------------------------------------------
+   step          t0          t1          dt           t        flux     fluence       power      energy
+    (-)         (d)         (d)         (s)         (s)   (n/cm2-s)     (n/cm2)        (MW)       (MWd)
+      1      0.0000    550.0000  4.7520E+07  4.7520E+07  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
+          
+              step - step index within this case
+                t0 - time at beginning-of-step in input units
+                t1 - time at end-of-step in input units
+                dt - length of step in seconds
+                 t - end-of-step cumulative time in seconds
+              flux - flux in neutrons/cm^2-sec (CALCULATED)
+           fluence - cumulative end-of-step fluence in neutrons/cm^2 (CALCULATED)
+             power - power in mega-watts (INPUT)     
+            energy - cumulative end-of-step energy released in mega-watt-days (INPUT)     
+=========================================================================================================================
+.
+.
+.
+.
+.
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    Library information                                          ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+=========================================================================================================================
+=   Library summary for case 'irrad' (#1/2)                                                                             =
+-------------------------------------------------------------------------------------------------------------------------
+filename: C:/Users/Teddy/AppData/Local/Temp/scale.Teddy.6988/w17x17_100d.f33 cross-section data taken from position number: 1
+library title delimited by {}: 
+{}
+date library was produced: 538976288/538976288/538976288
+total number of nuclides in library: 2237
+number of light-element nuclides: 910
+number of actinide nuclides: 176
+number of fission product nuclides: 1151
+number of nonzero off-diagonal matrix elements: 54564
+=========================================================================================================================
+.
+.
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    Concentration tables                                         ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+=========================================================================================================================
+=   Nuclide concentrations in grams for case 'irrad' (#1/2)                                                             =
+-------------------------------------------------------------------------------------------------------------------------
+  (relative cutoff; integral of concentrations over time >   1.00E-06 % of integral of all concentrations over time)
+.
+                   0.000d    550.000d   
+  u-235        3.5000E+04  3.5000E+04
+  u-238        9.6500E+05  9.6500E+05
+------------
+  totals       1.0000E+06  1.0000E+06
+=========================================================================================================================
+.
+.
+=========================================================================================================================
+=   History overview for case 'decay' (#2/2)                                                                            =
+-------------------------------------------------------------------------------------------------------------------------
+   step          t0          t1          dt           t        flux     fluence       power      energy
+    (-)         (y)         (y)         (s)         (s)   (n/cm2-s)     (n/cm2)        (MW)       (MWd)
+      1      1.5057      2.5057  3.1560E+07  7.9080E+07  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
+          
+              step - step index within this case
+                t0 - time at beginning-of-step in input units
+                t1 - time at end-of-step in input units
+                dt - length of step in seconds
+                 t - end-of-step cumulative time in seconds
+              flux - flux in neutrons/cm^2-sec (CALCULATED)
+           fluence - cumulative end-of-step fluence in neutrons/cm^2 (CALCULATED)
+             power - power in mega-watts (INPUT)     
+            energy - cumulative end-of-step energy released in mega-watt-days (INPUT)     
+=========================================================================================================================
+.
+.
+.
+.
+.
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    Library information                                          ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+=========================================================================================================================
+=   Library summary for case 'decay' (#2/2)                                                                             =
+-------------------------------------------------------------------------------------------------------------------------
+filename: C:/Users/Teddy/AppData/Local/Temp/scale.Teddy.6988/w17x17_100d.f33 cross-section data taken from position number: 1
+library title delimited by {}: 
+{}
+date library was produced: 538976288/538976288/538976288
+total number of nuclides in library: 2237
+number of light-element nuclides: 910
+number of actinide nuclides: 176
+number of fission product nuclides: 1151
+number of nonzero off-diagonal matrix elements: 54564
+=========================================================================================================================
+.
+.
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    Concentration tables                                         ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+=========================================================================================================================
+=   Nuclide concentrations in grams for case 'decay' (#2/2)                                                             =
+-------------------------------------------------------------------------------------------------------------------------
+  (relative cutoff; integral of concentrations over time >   1.00E-06 % of integral of all concentrations over time)
+.
+                   1.506y      2.506y   
+  u-235        3.5000E+04  3.5000E+04
+  u-238        9.6500E+05  9.6500E+05
+------------
+  totals       1.0000E+06  1.0000E+06
+=========================================================================================================================
+.
+.
+*************************************************************************************************************************
+********************                                                                                 ********************
+********************                                                                                 ********************
+********************                    Written F71 File Information                                 ********************
+********************                                                                                 ********************
+********************                                                                                 ********************
+*************************************************************************************************************************
+.
+.
+   pos         time        power         flux      fluence       energy libpos   case   step DCGNAB
+   (-)          (s)         (MW)    (n/cm2-s)      (n/cm2)        (MWd)    (-)    (-)    (-)    (-)
+     1  4.75200e+07  0.00000e+00  0.00000e+00  0.00000e+00  0.00000e+00      1      2      0 DC----
+     2  7.90800e+07  0.00000e+00  0.00000e+00  0.00000e+00  0.00000e+00      1      2      1 DC----
+    D - state definition present
+    C - concentrations present
+    G - gamma emission spectra present
+    N - neutron emission spectra present
+    A - alpha emission spectra present
+    B - beta emission spectra present
+.
+.
+.
+=========================================================================================================================
+ORIGEN finished successfully.
+=========================================================================================================================
+    module origen used 0.329836 seconds cpu time for the current pass.
+
+    module origen is finished. completion code    0. total cpu time used 4.1988e-006 seconds.
+
+
+    SCALE is finished on Wed Feb 13 18:33:04 2019.
+-------------------------- Summary --------------------------
+arp finished. used 1.77894 seconds.
+origen finished. used 0.336347 seconds.
+SCALE driver required a maximum of 8.301 MiB of RAM.
+------------------------ End Summary ------------------------
+
+w17x17_100d.f33 copied to C:\Users\Teddy\Desktop\scale_test\output\w17x17_100d.f33.
+discharge.f71 copied to C:\Users\Teddy\Desktop\scale_test\output\discharge.f71.

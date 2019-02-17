@@ -9,16 +9,17 @@ a large increase in computational time.
 
 For 100 random sets of
 burnup and enrichment depletion calculations,
-the model takes 0.12 seconds, while
+the model takes 0.15 seconds, while
 searching the database for an assembly
-with the closest burnup and enrichment (using Pandas read csv)
-takes 21.8 seconds. Also, the pickled model file is only
-38 Kb, while the curated database (.csv) is 330 Mb.
+with the closest burnup and enrichment (using Pandas)
+takes 21.8 seconds. 100 \gls{ORIGEN} calculations
+take 118 seconds. Also, the pickled model file is only
+38 Kb, while the curated database (.csv) itself is 330 Mb.
 
 \subsection{Assembly Comparison}
 
-Ten burnup and enrichment data was picked at random from the \gls{UDB},
-and was compared with the model predictions, to observe
+Ten data points were picked at random from the \gls{UDB},
+and were compared with the model predictions, to observe
 two things:
 \begin{enumerate}
     \item What isotope (or Z, A range) the model is good / bad
@@ -33,7 +34,7 @@ show that the model
 generally has a high relative error percentage for Ra-226
 (average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes.
 The absolute prediction errors are quite small
-(\textasciitilde 1e-11), but the percent errors are large due
+(\textasciitilde 1e-11), but the percent errors are largely due
 to the small value of the data. There was not a notable
 difference in the error values for enrichment
 and burnup variations.
@@ -77,19 +78,18 @@ and burnup variations.
     \label{fig:401_47722}
 \end{figure}
 
-A general plot of 
-
 
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
-In this section we compare three \gls{UNF} inventories.
+In this section, we compare three \gls{UNF} inventories.
 The inventories are acquired by using the assembly mass data
 in the \gls{UDB}. The only difference is the composition of the
-assemblies. The three different inventories acquire the recipe by:
+assemblies. The three different inventories acquire the composition by:
+
 \begin{enumerate}
     \item Data: simply importing from database
     \item Prediction: model prediction of composition using burnup and enrichment from database
-    \item Recipe: using average recipe (for all assemblies)
+    \item Recipe: using average composition (for all assemblies)
 \end{enumerate}
 
 We compare the three inventories on the three
@@ -97,7 +97,7 @@ metrics:
 \begin{enumerate}
     \item Isotopic inventory
     \item Waste metrics (activity and decay heat)
-    \item Equivalent fissile inventory (equivalent pu-239)
+    \item Equivalent fissile inventory (equivalent Pu-239)
 \end{enumerate}
 
 The Unified database contains discharged assembly data
@@ -107,7 +107,7 @@ from nuclear reactors in the United States up to May of
 
 \begin{table}[h]
     \centering
-    \begin{tabular}{lrrr}
+    \begin{tabular}{l|r|rr}
         \hline
         Metric & Data & Recipe & Prediction \\
         \hline
@@ -131,7 +131,7 @@ Comparing the isotope inventory, the model outperforms the
 average recipe method for all isotopes.
 Figure \ref{fig:iso_rel} shows the relative
 error between the full database, model prediction, and
-average recipe for
+the average recipe for
 major isotopes. For plutonium isotopes, the model far
 outperforms the average database.
 
@@ -154,17 +154,12 @@ outperforms the average database.
 
 
 \subsubsection{Waste Metric}
-The model excellently predicts the waste metrics activity
+The model excellently predicts waste metrics activity
 and decay heat. Figures \ref{fig:assem_dh} and \ref{fig:assem_act}
 show the relative error percent of the decay heat and activity
 predictions per assembly. The model predicts most assemblies
-with an error less than 1\%, except for assemblies with low
-burnup.
-Figures \ref{fig:assem_dh_recipe} and
-\ref{fig:assem_act_recipe} show the relative error percent
-of the decay heat and activity from the average recipe.
-As shown the error is higher as the point is farther from
-the average burnup and enrichment.
+with an error of less than 1\%, except for assemblies with low
+burnup and high enrichment.
 
 
 \begin{figure}
@@ -183,6 +178,14 @@ the average burnup and enrichment.
              activity of individual assemblies.}
     \label{fig:assem_act}
 \end{figure}
+
+
+Figures \ref{fig:assem_dh_recipe} and
+\ref{fig:assem_act_recipe} show the relative error percent
+of the decay heat and activity from the average recipe.
+As shown the error is higher as the point gets farther from
+the average burnup and enrichment.
+
 
 
 \begin{figure}
@@ -209,7 +212,7 @@ the average burnup and enrichment.
 
 
 Table \ref{tab:wm} shows the decay heat and activity value
-comparison in years 2020, 2100, and 3100. The total
+comparison in the years 2020, 2100, and 3100. The total
 error is less than 1.1\% for all metrics at all time periods.
 Figure \ref{fig:ha_err} shows the relative error percentage
 of activity and decay heat progression in time. It shows
@@ -251,14 +254,14 @@ in predicting waste metrics.
 Fissile quality is calculated as a metric called
 equivalent plutonium-239, shown in figure \ref{fig:pu_equiv} \cite{anon_plutonium_1989}. This value is
 calculated by aggregating the weighted fissile
-values of each isotope in an \gls{UNF}.
+values of each isotope in a \gls{UNF}.
 For example, the equivalent fissile value for
 an \gls{LWR} will be calculated by:
 \begin{equation}
 \text{Pu}_{eq} = 0.8(U_{235}) - (\text{Pu}_{238}) + (\text{Pu}_{239}) - 0.4(\text{Pu}_{240}) \\
             + 1.3(\text{Pu}_{241}) - 1.4(\text{Pu}_{242}) - 2.2(\text{Am}_{241})
 \end{equation}
-Where the isotopes represent the mass of each isotope.
+Where the variables represent the mass of each isotope.
 
 
 \begin{figure}
@@ -292,18 +295,74 @@ decay of plutonium 241, which has a half-life of
 
 \subsection{\Cyclus implementation}
 
-Applications and use cases
+Implementing the model into \Cyclus allows a 
+reactor model where reactor parameters like discharge
+burnup, initial enrichment, cycle time, and power
+capacity is dynamic and customizable.
 
-We can simulate transition scenarios of different future
-burnup of \gls{LWR} fuel increases over time and how that
-affects transition time.
+The created archetype in \Cyclus allows users to define
+equations instead of numbers for reactor parameters.
+The user can define an enrichment-burnup matrix for
+each assembly in each batch, and the burnup and enrichment
+values can be equations in time. This way, users can
+implement reactor facilities where the reactor parameters
+change in time.
 
-This model allows simulation of a dynamic \gls{PWR}, where
-the burnup, enrichment, cycle time and refuel time can be
-highly customizable. This capability allows a modeling of a
-\gls{PWR} fleet with varying performances, while the performance
-changes with time.
+Figures \ref{fig:cyclus_pu}
+and \ref{fig:cyclus_fp} show the discharge fuel composition
+of a reactor facility where we increased the discharge burnup
+from 33,000 to 71,710 MWd/kg over 25 discharge cycles.
+It should be noted that the model does not take into account
+the plausibility of such fuel depletion. For example, it
+would be nearly impossible for a  \gls{PWR} to burn 2\%
+enriched \gls{UOX} fuel to 70,000 MWd/kg.
 
-[one single reactor with varying assemblies received and sent]
+The user can also define dynamic
+cycle time and refueling time for the reactor model, as shown
+in figure \ref{fig:cyclus_time}.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/pu.png}
+    \caption{Plutonium isotope concentration in discharge fuel over discharge cycle. The model errors if the target burnup
+    is over the burnup listed in the training dataset.}
+    \label{fig:cyclus_pu}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/fp.png}
+    \caption{Fission product concentration in discharge fuel over discharge cycle. Increased discharge burnup leads to higher fission product concentration.}
+    \label{fig:cyclus_fp}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{./cyclus_imp/cycle_time.png}
+    \caption{Discharge and refueling cycles can be defined as an equation of time in this reactor archetype.}
+    \label{fig:cyclus_time}
+\end{figure}
+
+\subsubsection{Applications and Use Cases}
+
+The capability to set dynamic reactor parameters
+allow simulation of various future transition scenarios
+that depend on \gls{UNF} inventory characteristics,
+such as \gls{MA} inventory. 
+Users can simulate future scenarios where the discharge
+burnup of reactors increases over time, and how that
+affects the \gls{MA} inventory, and how that affects
+transition speed. 
+
+Also, users can simulate potential
+power uprates in currently existing fleets, and
+estimate how that affects \gls{UNF} inventory. With
+advances in materials, reactors will have longer
+cycle times and higher fuel discharge burnups.
+This dynamic reactor model will be able to account
+for the changes in these reactor parameters.
 
 \FloatBarrier

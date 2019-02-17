@@ -1,0 +1,118 @@
+ *******************************************************************************
+ *                                                                             *
+ *                                 SCALE 6.2.2                                 *
+ *                                -------------                                *
+ *                                February 2019                                *
+ *                                                                             *
+ *           SCALE:  A Comprehensive Modeling and Simulation Suite             *
+ *                   for Nuclear Safety Analysis and Design                    *
+ *                                                                             *
+ *                      Reactor and Nuclear Systems Division                   *
+ *                        Oak Ridge National Laboratory                        *
+ *                                                                             *
+ *                           http://scale.ornl.gov                             *
+ *                            scalehelp@ornl.gov                               *
+ *                                                                             *
+ *******************************************************************************
+ *******************************************************************************
+      
+                  Job Information
+                  ---------------
+      Job started on DESKTOP-J14NAA6 on Wed 13/02/2019 18:33:42
+      Working directory: C:\Users\Teddy\AppData\Local\Temp\scale.Teddy.2308
+      Input file name  : C:\Users\Teddy\Desktop\scale_test\output\3.500000_9191.919192.inp
+      Output file name : C:\Users\Teddy\Desktop\scale_test\output\3.500000_9191.919192.out
+      SCALE executable : C:\SCALE-6.2.2/bin/scale
+      
+ *******************************************************************************
+
+
+    module arp will be called on Wed Feb 13 18:33:42 2019.
+    sequence specification record:=arp
+Input Data:
+
+      'library type
+      w17x17
+      3.500000
+      ' num cycles
+      1
+      ' num days per cycle
+      550
+      ' cycle average specific power (MW / MTU)
+      16.712580
+      ' number of interpolated cross section sets generated per cycle
+      1
+      ' moderator density (g/cc)
+      0.723
+      ' interpolated output ORIGEN library
+      w17x17_100d.f33
+end
+
+1
+
+
+
+
+
+
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                       program verification information                                       *****
+        *****                                                                                                              *****
+        *****                                   code system:  SCALE    version:  6.2                                       *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****              program:  arp.exe                                                                               *****
+        *****                                                                                                              *****
+        *****        creation date:   unknown                                                                              *****
+        *****                                                                                                              *****
+        *****              library:  C:\SCALE-6.2.2\bin                                                                    *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        *****            prod code:  arp.exe                                                                               *****
+        *****                                                                                                              *****
+        *****              version:  6.2.2                                                                                 *****
+        *****                                                                                                              *****
+        *****              jobname:  Teddy                                                                                 *****
+        *****                                                                                                              *****
+        *****         machine name:  DESKTOP-J14NAA6                                                                       *****
+        *****                                                                                                              *****
+        *****    date of execution:  13_feb_2019                                                                           *****
+        *****                                                                                                              *****
+        *****    time of execution:  18:33:42.89                                                                           *****
+        *****                                                                                                              *****
+        *****                                                                                                              *****
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+        ************************************************************************************************************************
+
+
+ 'library type
+    data library:       w17x17
+       directory:       C:/SCALE-6.2.2/data/\arplibs
+       definition:      C:/SCALE-6.2.2/data/\arpdata.txt
+    u-235 enrichment:                        3.500
+
+ ' num cycles
+    number of cycles:                            1
+
+ ' num days per cycle
+
+ ' cycle average specific power (MW / MTU)
+
+ ' number of interpolated cross section sets generated per cycle
+
+ ' moderator density (g/cc)
+    water density (g/cm3):                  0.7230
+                                         cycle        cumulative      midpoint
+   cycle time(d)        power(MW)      burnup(MWd/MTU)burnup(MWd/MTU)burnup(MWd/MTU)nlib
+     1    550.000        16.7126        9191.92        9191.92        4595.96             1
+
+ ' interpolated output ORIGEN library
+    interpolated library name:                   w17x17_100d.f33
+ interpolation type: spline
