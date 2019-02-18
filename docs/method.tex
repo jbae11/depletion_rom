@@ -64,15 +64,35 @@ depletion parameters which results in the hardening of
 the neutron energy spectrum and an increased \gls{SNF} 
 residual reactivity \cite{peterson_additional_2017}. 
 
+Also, the irradiation history of the fuel is unspecified in the
+database, which can be a source of deviation for short-lived isotopes.
+With the complications (unknown irradiation history, variyng
+assembly models) and assumptions (conservative composition to
+increase fuel reactivity), the database is far from ideal to use
+as a training dataset for a depletion calculation model. However,
+we chose this data set because it allows testing of model performance
+through comparision of \gls{UNF}
+inventory between a high-fidelity model and a model prediction for
+varying burnup, enrichment, and discharge time.
+
+Ideally, the data should be generated with exact same reactor
+parameters other than burnup and enrichment, such as geometry or
+coolant density. However, since
+this is preliminary work to prove potential workflow, we
+simply used all the \gls{PWR} datasets in the \gls{UDB}.
+
+We received the database through personal contact with
+Kaushik Banerjee, one of the original creators of the database.
+
 \subsection{Data Curation}
 
 We curated the raw \gls{UDB} datasets to generate
 a cleaner training set. First we only used the 
 \gls{PWR} assemblies since \gls{BWR} \gls{UNF} assembly
-calculations can largely vary with void fraction.
+calculation results can vary largely with void fraction.
 We also filtered out the
 `very low' enrichment ($\leq$ 1.5) and
-burnup ($\leq$ 10,000 MWd/kg)
+burnup ($\leq$ 10,000 MWd/MT)
 assemblies to represent more modern \gls{PWR} \gls{UNF}
 assembly range. Figure \ref{fig:enr_bu} shows the
 burnup and enrichment distribution of the assemblies in the
@@ -113,7 +133,7 @@ M_{initU} = \text{Mass of initial uranium in assembly}
 \subsection{Predictive Models for Fuel Depletion}
 
 The isotopic composition of \gls{UNF} is hard to predict due to their
-non-linear relationship with fuel parameters. For each
+varying relationship with fuel parameters. For each
 isotope, we plotted isotopic concentration values against
 burnup and enrichment to observe the relationship between
 burnup, enrichment, and isotope concentration.
@@ -132,8 +152,9 @@ hard to predict using a simple linear model.
 
 Due to these complexities, we decided to train an artificial
 neural network for our predictive model. We chose
-Keras to create and validate the model, as well as scikit-learn
-and pandas for data processing and management.
+Keras \cite{collet_keras_2015} to create and validate the model,
+as well as scikit-learn \cite{pedregosa_scikit-learn_2011}
+and pandas \cite{mckinney-proc-scipy-2010} for data processing and management.
 
 \begin{figure}
     \centering
@@ -167,7 +188,7 @@ and pandas for data processing and management.
 \subsection{Training and Selecting Models}
 
 The inputs (features) of the model are
-burnup (MWd/kg) and initial enrichment (wt\% U-235).
+burnup (MWd/MT) and initial enrichment (wt\% U-235).
 The outputs (targets) of the model are
 the concentration (weight \%) of the 60 isotopes in the
 depleted assembly.
@@ -186,21 +207,22 @@ so that the range of input and output data is (0,1).
         \hline
         Parameter & Values \\
         \hline
-        Number of hidden layers & 1, 2, \textbf{3}, 4 \\
-        Node per hidden layer & 4, 8, \textbf{16}, 32 \\
+        Number of hidden layers & 1, \textbf{2}, 3, 4 \\
+        Node per hidden layer & 4, 16, 32, 64, \textbf{128} \\
         Dropout rate & \textbf{0.0}, 0.2, 0.5 \\
         \hline
     \end{tabular}
     \caption{Table of hyperparameters tested
-             for neural network model. The bolded
+             for neural network model. The bold
              numbers are the values we used for the final model.}
 \end{table}
+
 
 The model with the smallest average loss value
 is selected and is exported as a file using python
 pickle, along with the dataset scaling objects, as well as
 the list of isotopes. By exporting the trained model
-as a file, the model can be used in any python
+as a self-contained file, the model can be used in any python
 application by loading the pickled file.
 
 
@@ -230,8 +252,8 @@ We compare waste parameters of the \gls{UNF} inventory
 such as activity and decay heat, using the
 \gls{PyNE} \cite{scopatz_pyne:_2012}. This tool provides
 various functions used
-in this work, such as decaying material and calculating
-the activity and decay heat of the material.
+in this work, such as decaying and calculating
+the activity and decay heat of the \gls{UNF} inventories.
 
 Ideally, the model should be tested against data
 that is not part of the training data. However, given
@@ -239,15 +261,15 @@ that the purpose of this model is to allow accessible and
 quick depletion calculation for
 fuel cycle simulations, the model would suffice if
 it predicts the dataset well. In other words, the
-goal of the model is to be able to reproduce the
-trained dataset without access to this particular dataset.
-Again, this work
+goal of the model is to be able to reproduce,
+in a continuous manner, the range of fuel depletion
+calculations in the database without access to the particular dataset.
+This work
 is to propose a general concept for implementing
 rapid depletion models in fuel cycle simulations.
-For creating depletion models for other reactor designs,
-one would simply change the dataset to a set of depletion
-calculations performed for a specific reactor design with
-constant operational parameters.
+For creating depletion models for other reactor designs or depletion parameters,
+one would simply change the dataset to a set of depletion calculations performed
+for a specific reactor design and operational parameters.
 
 
 \subsection{Model Implementation in \Cyclus}
@@ -256,22 +278,22 @@ The trained model is exported to a file
 that can be plugged into external codes. \Cyclus
 has a python interface that allows the developer
 to design archetypes in python. We developed a reactor
-module that behaves the similar to the recipe reactor
+module that behaves similarly to the recipe reactor
 but calculates depleted fuel concentration using the
 imported model instead of a recipe. The user can vary
-individual assembly burps. The user defines a burnup
+individual assembly burnups. The user defines a burnup
 and enrichment
 matrix for the reactor where the rows are the number
 of batches, and the columns are the number of
 assemblies in a batch. This reactor module is also
 available on Github 
-(https://github.com/jbae11/ann\_pwr)
+(https://github.com/jbae11/ann\_pwr).
 
 This sort of implementation can be done with
 the recipe reactor if the user defines multiple
 output recipes. However, the user can only define
 the recipe of a batch.
-Implementing the model will allow the user to vary
+Implementing this trained neural network model will allow the user to vary
 burnup and enrichment for individual assemblies, as well
 as vary fuel residence time and burnup with reactor
 lifetime or simulation time. Such capability will be
