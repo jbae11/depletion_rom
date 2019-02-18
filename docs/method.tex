@@ -26,35 +26,43 @@ Codes used to generate and test the neural network
 model are all on Github (https://github.com/jbae11/depletion\_rom)
 including the pickled neural network model file.
 
-\subsection{Train dataset}
+\subsection{Train data set}
 
 In order to train a depletion model, a large amount of
 depletion data is needed, that span the potential
 burnup and enrichment range in typical reactors.
 
+Data from the \gls{UDB} was used to train the model 
+based on burnup and enrichment. 
+
+Ideally, the data should be generated with exact same reactor
+parameters other than burnup and enrichment, such as geometry or
+coolant density. However, since
+this is preliminary work to prove potential workflow, we
+simply used all the \gls{PWR} datasets in the \gls{UDB}.
+
 \subsubsection{Unified Database}
 The \gls{UDB} is part of a larger engineering
-analysis tool called \gls{UNF-STANDARDS}, developed
-by \gls{ORNL} \cite{peterson_used_2013}. The
-database ``provides a comprehensive, controlled
+analysis tool, the \gls{UNF-STANDARDS}, developed
+by \gls{ORNL} \cite{peterson_used_2013}.  
+The database provides a comprehensive, controlled
 source of \gls{SNF} information, including
 dry cask attributes, assembly data, economic attributes,
 transportation infrastructure attributes, potential future
 facility attributes, and federal government radioactive
-waste attributes.
-
-=========================GWEN=========================
-
-We received the database through personal contact
-with [i think it's Kaushik Banerjee] [how we got it and stuff]
-
-list of assumptions from the \gls{UNF-STANDARDS} dataset.
-\begin{itemize}
-    \item UNF database
-    \item different assembly geometries?
-\end{itemize}
-
-=========================GWENEND=========================
+waste attributes. 
+The assembly-specific attributes include 
+such as initial enrichment, burnup, \gls{MTHM}, assembly 
+type and discharge date \cite{peterson_fuel_2015}. 
+Irradiation and decay calculations using SCALE 
+\cite{bowman_scale_2011} were performed on each 
+spent fuel assembly based on the previously mentioned 
+parameters in the collected data to obtain mass, heat 
+and activity for each assembly \cite{peterson_additional_2017}. 
+All the assemblies were modeled with conservative 
+depletion parameters which results in the hardening of 
+the neutron energy spectrum and an increased \gls{SNF} 
+residual reactivity \cite{peterson_additional_2017}. 
 
 Also, the irradiation history of the fuel is unspecified in the
 database, which can be a source of deviation for short-lived isotopes.
