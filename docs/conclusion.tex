@@ -4,13 +4,13 @@ by using a neural network predictive model for depletion.
 The neural network model predicted the \gls{UNF} inventory
 with less than 5\% error for individual isotopes,
 less than 1\% error for waste profile 
-and less than 2\% error for the fissile quality.
+and less than 0.1\% error for the fissile quality.
 The predictive model outperformed the average recipe
 method in every metric.
 
 We implemented this model in \Cyclus to develop a
 dynamic reactor model with changing reactor parameters,
-which allows simulation of potential future improvements
+which can simulate potential future improvement scenarios
 in reactor operation.
 
 This work also shows that quick, open-source depletion models
@@ -31,10 +31,11 @@ ground between rapidity and fidelity.
 We cannot avoid the criticism that the model is validated
 against the dataset used to train the model. However, the purpose
 of this work is to create a model that can quickly reproduce the
-database without having to distribute the database, which is proprietary
+database without having access to the database, which is proprietary
 and large in size. The pickled file that contains
 the model and data scaling objects is only 38.2 kB, meaning that it
-can be easily distributed and imported in external software.
+can be easily distributed and imported in external software, without
+revealing any information on the actual proprietary dataset.
 
 [cringe]
 
@@ -48,5 +49,5 @@ community should encourage collection and storage of more
 data and simulation results in
 a central repository, for the betterment of the field.
 
-[cringe]
+[cringeend]
 
