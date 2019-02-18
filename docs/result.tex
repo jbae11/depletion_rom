@@ -2,18 +2,16 @@
 
 The model performed better than using the average
 recipe in predicting the U.S. \gls{UNF}, without
-a large increase in computational time.
-
+a significant increase in computational time.
 
 \subsection{Depletion Calculation Time and File Size}
-
 For 100 random sets of
 burnup and enrichment depletion calculations,
-the model takes 0.15 seconds, while
-searching the database for an assembly
+the model takes 0.27 seconds, while
+searching the database for a assemblies
 with the closest burnup and enrichment (using Pandas)
-takes 21.8 seconds. 100 \gls{ORIGEN} calculations
-take 118 seconds. Also, the pickled model file is only
+takes 21.8 seconds. Comparatively, 100 \gls{ORIGEN} calculations
+take 118 seconds. Also, the standalone model pickle file is only
 38 Kb, while the curated database (.csv) itself is 330 Mb.
 
 \subsection{Assembly Comparison}
@@ -29,12 +27,12 @@ two things:
 \end{enumerate}
 
 Figures \ref{fig:3-2_29998-0}, \ref{fig:3-81_35883-0},
-\ref{fig:4-0_35195-0}, and \ref{fig:401_47722}
+\ref{fig:4-0_35195-0}, and \ref{fig:4-47_50105-0}
 show that the model
 generally has a high relative error percentage for Ra-226
-(average concentration 6.0 e-12\%) ,Ac-227 (average concentration  2.3 e-12\%), and curium isotopes.
+(average concentration 6.0 e-12\%), Ac-227 (average concentration  2.3 e-12\%), and curium isotopes.
 The absolute prediction errors are quite small
-(\textasciitilde 1e-11), but the percent errors are largely due
+(averaging 1e-11), but the large percent errors are due
 to the small value of the data. There was not a notable
 difference in the error values for enrichment
 and burnup variations.
@@ -47,7 +45,6 @@ and burnup variations.
     \label{fig:3-2_29998-0}
 \end{figure}
 
-
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{3-81_35883-0.png}
@@ -56,8 +53,6 @@ and burnup variations.
              }
     \label{fig:3-81_35883-0}
 \end{figure}
-
-
 
 \begin{figure}
     \centering
@@ -82,15 +77,35 @@ and burnup variations.
 \subsection{U.S. \gls{UNF} Inventory Comparison}
 
 In this section, we compare three \gls{UNF} inventories.
-The inventories are acquired by using the assembly mass data
+The inventories are acquired by using the assembly mass and discharge date data
 in the \gls{UDB}. The only difference is the composition of the
 assemblies. The three different inventories acquire the composition by:
 
 \begin{enumerate}
     \item Data: simply importing from database
     \item Prediction: model prediction of composition using burnup and enrichment from database
-    \item Recipe: using average composition (for all assemblies)
+    \item Recipe: using an single composition (recipe) for all assemblies
 \end{enumerate}
+
+The assembly with the median burnup and assembly has an initial enrichment
+of 3.85 (wt\%) and a burnup of $41,552$ MWd/MT. The concentrations of major
+isotopes in the assembly are in table \ref{tab:avg_assem}.
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|r|r|r|r|r|}
+        \hline
+        Isotopes & U-235 & U-238 & Pu-239 & Cs-137 & Sr-90 \\
+        \hline
+        Concentration [wt\%] & 1.076 & 92.66 & 0.77 & 0.14 & 0.061 \\
+        \hline
+    \end{tabular}
+    \caption{Isotopic concentration of the assembly with median burnup and
+             enrichment. This composition is used for the recipe method. 
+    \label{tab:avg_assem}}
+\end{table}
+
 
 We compare the three inventories on the three
 metrics:
@@ -102,8 +117,9 @@ metrics:
 
 The Unified database contains discharged assembly data
 from nuclear reactors in the United States up to May of
-2013. We added all the \gls{UNF} assemblies in the database.
-
+2013. We added all the \gls{UNF} assemblies in the database,
+and evaluated the inventory in 2013. The results are shown
+in table \ref{tab:met}.
 
 \begin{table}[h]
     \centering
@@ -111,16 +127,17 @@ from nuclear reactors in the United States up to May of
         \hline
         Metric & Data & Recipe & Prediction \\
         \hline
-        $^{239}Pu$ mass [t] & 320.37 & 305.14 & 321.38\\
-        $^{137}Cs$ mass [t] & 63.84 & 58.46 & 63.73 \\
-        $^{235}U$ mass [t] & 464.60 & 455.18 & 474.14\\
-        $^{238}U$ mass [t] & 42,171 & 42,200 & 42,162\\
+        $^{239}Pu$ mass [t] & 320.37 & 351.70 & 321.38\\
+        $^{137}Cs$ mass [t] & 63.84 & 66.64 & 63.73 \\
+        $^{235}U$ mass [t] & 464.60 & 487.94 & 474.14\\
+        $^{238}U$ mass [t] & 42,171 & 42,016 & 42,162\\
         \hline
-        Decay Heat [MW] & 193.39 & 208.25 & 193.33 \\
-        Activity [Bq] & $2.79e21$ & $2.15e21$ & $2.75e21$ \\
+        Decay Heat [MW] & 193.39 & 198.55 & 193.33 \\
+        Activity [Bq] & $2.79e21$ & $2.84e21$ & $2.75e21$ \\
         \hline
     \end{tabular}
-    \caption{Comparison of \gls{PWR} \gls{UNF} inventory in the U.S.}
+    \caption{Comparison of \gls{PWR} \gls{UNF} inventory in the U.S. 
+    \label{tab:met}}
 \end{table}
 
 \FloatBarrier
@@ -311,11 +328,11 @@ change in time.
 Figures \ref{fig:cyclus_pu}
 and \ref{fig:cyclus_fp} show the discharge fuel composition
 of a reactor facility where we increased the discharge burnup
-from 33,000 to 71,710 MWd/kg over 25 discharge cycles.
+from 33,000 to 71,710 MWd/MT over 25 discharge cycles.
 It should be noted that the model does not take into account
 the plausibility of such fuel depletion. For example, it
 would be nearly impossible for a  \gls{PWR} to burn 2\%
-enriched \gls{UOX} fuel to 70,000 MWd/kg.
+enriched \gls{UOX} fuel to 70,000 MWd/MT.
 
 The user can also define dynamic
 cycle time and refueling time for the reactor model, as shown

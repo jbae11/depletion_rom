@@ -49,7 +49,6 @@ transmutation methods available for each \gls{NFC} code.
 
 \begin{table}[h]
     \centering
-    \label{tab:nfcs}
     \begin{tabular}{lrrr}
         \hline
         \gls{NFC} code & Transmutation Methods Available \\
@@ -61,7 +60,8 @@ transmutation methods available for each \gls{NFC} code.
         \hline
     \end{tabular}
     \caption{Methods for transmutation in reactor modules
-             for each \gls{NFC} simulation code.}
+             for each \gls{NFC} simulation code. 
+             \label{tab:nfcs}}
 \end{table}
 
 \Cyclus has three methods to obtain transmutation results: the \Cycamore 
@@ -116,7 +116,7 @@ that each reactor and fuel cycle facility is modeled as a discrete and independe
 player in the simulation.
 A \Cyclus agent archetype defines the logic that governs the behavior
 of an agent. 
-\Cyclus archetypes can be coded either with c++ or python.
+\Cyclus archetypes can be coded either with \CC  or python.
 In this simulation, the user defines the archetype's
 parameters. The archetypes with user-defined parameters are then deployed
 as agent prototypes.  Encapsulating the \texttt{Facility} agents are the \texttt{Institution} and \texttt{Region}.
@@ -155,7 +155,6 @@ any novel fuel cycle. This enables \Cyclus to simulate any system analysis
 involving multiple connected facilities with physics-based
 calculations.
 
-
 \begin{figure}[htbp!]
     \begin{center}
         \includegraphics[width=\textwidth]{cyclus_core.png}
@@ -169,24 +168,4 @@ calculations.
 Due to this modularity in the \Cyclus framework, the developed
 model in this work can be implemented independently without
 having to modify the \Cyclus source code. The new facility archetype
-is simply written with the \Cyclus API, and imported in a
-\Cyclus simulation.
-
-\iffalse
-
-\subsubsection{\Cycamore Recipe Reactor}
-\Cycamore is a library that consists of useful
-fuel cycle facility archetypes for \Cyclus. The
-recipe reactor in \Cycamore is a batch-wise reactor.
-A reactor core is consisted of multiple batches,
-and a batch is consisted of multiple assemblies.
-At startup, the reactor requests the entire core,
-which is consisted of user-defined number of assemblies.
-At every cycle, the reactor discharges and
-requests batches of fuel. Upon decommissioning,
-the reactor discharges all its fuel. The discharged
-fuel is transmutated to the user-defined recipe.
-No depletion calculation is performed. However,
-the user can define multiple recipes, and can define
-times to change the recipe from one to another.
-\fi
+is written in Python and implemented through the \Cyclus API.
