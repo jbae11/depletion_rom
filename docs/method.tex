@@ -56,6 +56,17 @@ list of assumptions from the \gls{UNF-STANDARDS} dataset.
 
 =========================GWENEND=========================
 
+Also, the irradiation history of the fuel is unspecified in the
+database, which can be a source of deviation for short-lived isotopes.
+With the complications (unknown irradiation history, variyng
+assembly models) and assumptions (conservative composition to
+increase fuel reactivity), the database is far from ideal to use
+as a training dataset for a depletion calculation model. However,
+we chose this data set because it allows testing of model performance
+through comparision of \gls{UNF}
+inventory between a high-fidelity model and a model prediction for
+varying burnup, enrichment, and discharge time.
+
 Ideally, the data should be generated with exact same reactor
 parameters other than burnup and enrichment, such as geometry or
 coolant density. However, since
