@@ -1,4 +1,4 @@
-\section{Conclusion}
+\section{Conclusion and Discussion}
 This work shows that fuel cycle analyses can be improved
 by using a neural network predictive model for depletion.
 The neural network model predicted the \gls{UNF} inventory
@@ -7,6 +7,11 @@ less than 1\% error for waste profile
 and less than 2\% error for the fissile quality.
 The predictive model outperformed the average recipe
 method in every metric.
+
+We implemented this model in \Cyclus to develop a
+dynamic reactor model with changing reactor parameters,
+which allows simulation of potential future improvements
+in reactor operation.
 
 This work also shows that quick, open-source depletion models
 can be implemented using prediction models, from
@@ -20,7 +25,7 @@ facilities. On the other hand, using simpler methods
 like recipes are overly simplified solutions
 that do not take into account variations in fuel
 parameters such as burnup.
-A well-trained predictive algorithm can find middle
+A well-trained predictive algorithm can find a middle
 ground between rapidity and fidelity.
 
 We cannot avoid the criticism that the model is validated
