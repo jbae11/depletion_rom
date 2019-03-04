@@ -56,6 +56,8 @@ end"""%(assembly, enr, days, power, u235, u238, days, power)
     with open(filepath, 'w') as f:
         f.write(scale_input)
 
+
+
 def run_scale(filepath, windows=False):
     print('Running:', filepath)
     pwd = Path(os.path.dirname(os.path.realpath(__file__)))
