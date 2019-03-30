@@ -319,6 +319,105 @@ Thank you for the thorough, careful review
         \end{solution}
 
 
+\section*{Results}
+        \question
+        Why choose this one?
+        \begin{solution}
+            These enrichment-burnup values are just picked
+            from random,to show some examples of this prediction
+            algorithm's performance. I handpicked some of them
+            to show the spectrum of enrichment-burnup sets.
+        \end{solution}
+
+        \question
+        Why not compare the whole thing?
+        \begin{solution}
+            that is done later in the paper,
+        \end{solution}
+
+        \question
+        There maybe a more dense way to show this info
+        \begin{solution}
+            I tried grid plots (2 x 2) but they were hard to see,
+            and the colors became indistinguishable if I used the 
+            same colorbar for all plots
+
+            I also was looking at 3d, but I decided that this
+            was the clearest way to show this data. Let me know
+            if you know of a good way!
+        \end{solution}
+
+        \question
+        What does median assembly mean?
+
+        \begin{solution}
+        I rewrote the sentence for clarity:
+
+            The median values for burnup and initial enrichment are
+            $41,552$ MWd/MT and 3.85 (wt\%), respectively. 
+        \end{solution}
+
+
+        \question
+        In part, this is because you are comparing median with
+        mean.. right?
+
+        \begin{solution}
+        I am not sure if I understand the question,
+        The recipe is the composition for an assembly with median
+        enrichment and burnup. I am not comparing the recipe to
+        any average value..? 
+        \end{solution}
+
+        \question
+        How is this a smooth line?
+
+        \begin{solution}
+        I used Pyne to generate 100 points for every inventory,
+        so that the lines look continuous.
+        \end{solution}
+
+
+        \question
+        Is this in the archetype of the toolkit
+
+        \begin{solution}
+        It is in the archetype, using python eval().
+        I don't think the toolkit exists.
+        \end{solution}
+
+        \question
+        What do you mean enrichment burnup matrix?
+
+        \begin{solution}
+        the matrix would have an enrichment / burnup
+        matrix for each assembly, with a shape (n\_batch, n\_assem per patch).
+        \end{solution}
+
+        \question
+        Seems like something that could be fixed fairly easily..
+
+        \begin{solution}
+        It would be if the neural network model could predict EOC keff,
+        but the model does not, since the keff data is not in the UDB.
+        But it would be a nice function to have.
+        \end{solution}
+
+        \question
+        Great. this should be a cyclus toolkit addition
+
+        \begin{solution}
+        I agree, and I made the issue in github.com/cyclus/cyclus.
+        I think Greg is workin on it. It's easy to implement in
+        python archetypes since it's a python function that evaluates
+        function definition strings into floats every timestep. I am
+        unsure how it can be implemented cyclus-wide.
+        \end{solution}
+
+        
+
+
+
 
 
         %---------------------------------------------------------------------
