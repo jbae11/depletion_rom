@@ -168,10 +168,12 @@ Thank you for the thorough, careful review
         This is the key mistake Meaningless if no test set was reserved
 
         \begin{solution}
-         I re-trained the neural network with a 70-15-15 split, where:
-         70 - training
-         15 - validation for hyperparameter search (performance comparison)
-         15 - test set reserved for final model
+         I re-trained the neural network with a 80-20 split, where:
+         80 - training
+            - this set goes through a 3 fold cross validation,
+            - where 80 * (2/3) train, 80/3 val
+            - for hyperparameter search (performance comparison)
+         20 - test set reserved for final model
 
          The results are added to the paper. 
 
@@ -217,6 +219,106 @@ Thank you for the thorough, careful review
         \begin{solution}
         From my master's thesis. Should I change things around?
         \end{solution}
+
+
+\section*{Methods}
+        \question
+        Maybe figure would be better than a list
+
+        Perhaps this should be a separate step
+
+        \begin{solution}
+
+        \end{solution}
+
+        \question
+        Are hidden layers and nodes per layer "Hyper parameters"
+
+        \begin{solution}
+        To the best of my knowledge they are, I guess the type of 
+        regression algorithm (linear regression, random forest etc.)
+        could also be a hyper parameter. Let me know what you think
+        about this definition.
+        \end{solution}
+
+        \question
+        Rephrase. Recognize that the reactor params could be input
+        values
+
+        \begin{solution}
+        added:
+            Also, it should be noted that the reactor
+            parameters could be input values to the neural network model.
+        \end{solution}
+
+        \question
+        Say this in a more compleeing way.
+
+        \begin{solution}
+            I'm sorry I'm having a hard time reading the handwriting.
+            Can you clarify what you want done here?
+        \end{solution}
+
+        \question
+        But it is now accessible via RSICC right?
+
+        \begin{solution}
+            I checked the RSICC website but couldn't find it there,
+            I will double check with the guys working on it to
+            confirm the access status of the database
+        \end{solution}
+
+        \question
+        Machine learning may actually benefit from more extreme data...
+
+        \begin{solution}
+            I originally used all the data but the results werent
+            great, so I decided to filter them, and I saw a significant
+            increase in performance. I don't think this model should
+            do well in predicting outliers by sacrificing its performance
+            for predicting modern enrichment/burnup assemblies.
+        \end{solution}
+
+
+        \question
+        Cite this, explain it?
+
+        \begin{solution}
+            I feel like explaining it would make the paragraph too
+            lengthy and unnecessary. 
+        \end{solution}
+
+
+        \question
+        So then, is it really fair?
+
+        \begin{solution}
+            I do see your point, but I think it is the best
+            option I have? What do you think?
+        \end{solution}
+
+        \question
+        This is circular
+        To demonstrate this, you need a test set
+
+        \begin{solution}
+        I did mention the test set, and that we set aside
+        20 percent prior to any training.
+        \end{solution}
+
+        \question
+        No one knows what the recipe reactor is
+
+        \begin{solution}
+            Changed sentence to 
+
+            This sort of implementation can be done with
+            a recipe-based approach for modeling reactor depletion
+            if the user defines multiple
+            output recipes. 
+        \end{solution}
+
+
 
 
         %---------------------------------------------------------------------
