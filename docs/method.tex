@@ -12,7 +12,7 @@ This work follows four steps:
 
 First, we curated the
 data with assembly information for ease of use in training the model.
-Second, we trained the neural network using Keras \cite{collet_keras_2015}
+Second, we trained the dense neural network using Keras \cite{collet_keras_2015}
 and Scikit-learn \cite{pedregosa_scikit-learn_2011},
 while using an outer loop to
 search for the optimized set of neural network hyperparameters,
@@ -24,7 +24,7 @@ and decay heat. Lastly, we implemented the trained
 model in \Cyclus by developing a reactor facility archetype
 that transmutes fuel using the model.
 
-The files used to generate and test the neural network
+The files used to generate and test the dense network
 model are all on Github (https://github.com/jbae11/depletion\_rom)
 including the pickled neural network model file. The raw data
 is not available to the public.
@@ -41,7 +41,7 @@ based on burnup and enrichment.
 Ideally, the data should be generated with exact same reactor
 parameters other than burnup and enrichment, such as geometry or
 coolant density. Also, it should be noted that the reactor
-parameters could be input values to the neural network model. However, since
+parameters could be input values to the dense neural network model. However, since
 this is preliminary work to prove potential workflow, we
 simply used all the \gls{PWR} datasets in the \gls{UDB},
 and the input values are only burnup and initial enrichment.
@@ -159,7 +159,7 @@ depends on both burnup and enrichment, which can make it
 hard to predict using a simple linear model.
 
 Due to these complexities, we decided to train an artificial
-neural network for our predictive model. We chose
+dense neural network for our predictive model. We chose
 Keras \cite{collet_keras_2015} to create and validate the model,
 as well as scikit-learn \cite{pedregosa_scikit-learn_2011}
 and pandas \cite{mckinney-proc-scipy-2010} for data processing and management.
