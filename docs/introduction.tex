@@ -3,14 +3,14 @@
 
 
 \subsection{Background and Motivation}
-The \gls{NFC} a complex system of facilities and material 
+The \gls{NFC}, a complex system of facilities and material 
 mass flows that are combined to provide nuclear energy for use 
 in society, usually in the form of electricity 
 \cite{yacout_modeling_2005}. 
 \gls{NFC} simulators are system analysis tools used to investigate 
 issues related to the dynamics of a nuclear fuel cycle in both 
-high and low resolution. 
-An example of a high resolution element is the spent fuel 
+high and low-resolution. 
+An example of a high-resolution element is the spent fuel 
 isotopic composition from a single fuel bundle, and an example 
 of a low resolution element is the total fuel utilization in 
 the system. 
@@ -21,22 +21,22 @@ Their goal is to assist in evaluating and improving potential
 strategies for nuclear power development in terms of improving waste 
 management, economic competitiveness, etc. \cite{yacout_modeling_2005}.   
 
-One of the major functionalities of a \gls{NFC} simulator is its 
+One of the major functionalities of an \gls{NFC} simulator is its 
 ability to transmute nuclear fuel in a reactor based on reactor 
 conditions such as burnup, enrichment, etc. 
 The transmutation results impact the accuracy of the \gls{UNF} 
 composition, and thus the capability of using the \gls{NFC} to 
-analyze the impact of a \gls{NFC} on variables such as waste profile.  
+analyze the impact of an \gls{NFC} on variables such as waste profile.  
 
 Current fuel cycle simulators include 
-CYCLUS \cite{huff_fundamental_2016},
+\Cyclus \cite{huff_fundamental_2016},
 DYMOND \cite{yacout_modeling_2005},
 VISION \cite{jacobson_verifiable_2010},
 and
 ORION \cite{gregg_analysis_2012}.
 NFC simulators obtain transmutation results using 
 various methods.  
-Essentially two overall types of methods to obtain transmutation 
+Two types of methods to obtain transmutation 
 results exist: recipe-based methods and library-based methods. 
 In recipe-based methods, direct neutronics calculations are not performed 
 within the model, they are done externally \cite{yacout_vision_2006}. 
@@ -58,7 +58,7 @@ transmutation methods available for each \gls{NFC} code.
         \hline
         \gls{NFC} code & Transmutation Methods Available \\
         \hline
-        CYCLUS \cite{huff_fundamental_2016}& Recipe-based and Library-based\\
+        \Cyclus \cite{huff_fundamental_2016}& Recipe-based and Library-based\\
         ORION \cite{gregg_analysis_2012}& Recipe-based and Library-based\\
         DYMOND \cite{yacout_modeling_2005}& Recipe-based  \\
         VISION \cite{jacobson_verifiable_2010}& Recipe-based  \\
@@ -69,7 +69,7 @@ transmutation methods available for each \gls{NFC} code.
              \label{tab:nfcs}}
 \end{table}
 
-\Cyclus has three methods to obtain transmutation results: the \Cycamore 
+\Cyclus has three methods to obtain spent fuel compositions: the \Cycamore 
 recipe reactor \cite{huff_extensions_2014}, CyBORG 
 \cite{skutnik_cyborg_2016}, and Bright-lite \cite{flanagan_brightlite_2014}.  
 The \Cycamore recipe reactor accepts a fresh and spent fuel recipe that is 
@@ -121,8 +121,8 @@ that each reactor and fuel cycle facility is modeled as a discrete and independe
 player in the simulation.
 A \Cyclus agent archetype defines the logic that governs the behavior
 of an agent. 
-\Cyclus archetypes are implemented in  either \CC  or python.
-In this simulation, the user defines the archetype's
+\Cyclus archetypes are implemented in  either \CC  or Python.
+In a simulation, the user defines the archetype's
 parameters. The archetypes with user-defined parameters are then deployed
 as agent prototypes.  Encapsulating the \texttt{Facility} agents are the \texttt{Institution} and \texttt{Region}.
 A \texttt{Region} agent holds a set of \texttt{Institution}s. 
@@ -130,7 +130,7 @@ An \texttt{Institution} agent can deploy or decommission \texttt{Facility} agent
 
 At each timestep,
 agents make requests for materials or bid to supply them and exchange
-with one another. A market-like mechanism called the dynamic resource exchange
+with one another. A market-like mechanism called the Dynamic Resource Exchange
 \cite{gidden_methodology_2016} governs the exchanges.
 For output analysis, each material resource has a quantity, composition, name, and a unique identifier.
 
@@ -140,23 +140,17 @@ and extensibility. Its agent-based modeling approach
 is ideal for modeling coupled, physics-dependent
 supply chain problems common in \glspl{NFC}.
 The framework allows for dynamic loading of 
-external libraries, which allows the users to plug-and-play
-different types of physics models for \gls{NFC}
-simulation.
+external libraries, so that users can plug-and-play
+various physics models for \gls{NFC} facility processes (shown in Figure \ref{fig:core}).
 
 
 \subsubsection{Modularity and Extensibility}
 
 In most modern \glspl{NFC} simulators, the facilities and their
-behaviors (and their fidelities) are confined in the software.
-Also, most modern \gls{NFC} simulators model
-fuel cycles (once-through, continuous reprocessing)
-with immutable connections between facilities. However,
-\Cyclus allows users to plug-and-play various agent models
-within the \Cyclus framework (shown in figure \ref{fig:core}).
-Also, \Cyclus relies on a market-based model
-for material trades between facilities, so the user can design
-any novel fuel cycle. This enables \Cyclus to simulate any system
+behaviors are confined in the software.
+Also, typical \gls{NFC} simulators model
+fuel cycles (e.g. once-through, continuous reprocessing)
+with immutable connections between facilities. This enables \Cyclus to simulate any system
 involving multiple connected facilities with physics-based
 calculations.
 
