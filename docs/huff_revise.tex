@@ -1,0 +1,446 @@
+%        File: revise.tex
+%     Created: Wed Oct 27 02:00 PM 2018 P
+% Last Change: Wed Oct 27 02:00 PM 2018 P
+%
+
+%
+% Copyright 2007, 2008, 2009 Elsevier Ltd
+%
+% This file is part of the 'Elsarticle Bundle'.
+% ---------------------------------------------
+%
+% It may be distributed under the conditions of the LaTeX Project Public
+% License, either version 1.2 of this license or (at your option) any
+% later version.  The latest version of this license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.2 or later is part of all distributions of LaTeX
+% version 1999/12/01 or later.
+%
+% The list of all files belonging to the 'Elsarticle Bundle' is
+% given in the file `manifest.txt'.
+%
+
+% Template article for Elsevier's document class `elsarticle'
+% with numbered style bibliographic references
+% SP 2008/03/01
+%
+%
+%
+% $Id: elsarticle-template-num.tex 4 2009-10-24 08:22:58Z rishi $
+%
+%
+%\documentclass[preprint,12pt]{elsarticle}
+\documentclass[answers,11pt]{exam}
+
+% \documentclass[preprint,review,12pt]{elsarticle}
+
+% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+% for a journal layout:
+% \documentclass[final,1p,times]{elsarticle}
+% \documentclass[final,1p,times,twocolumn]{elsarticle}
+% \documentclass[final,3p,times]{elsarticle}
+% \documentclass[final,3p,times,twocolumn]{elsarticle}
+% \documentclass[final,5p,times]{elsarticle}
+% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+% if you use PostScript figures in your article
+% use the graphics package for simple commands
+% \usepackage{graphics}
+% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+% or use the epsfig package if you prefer to use the old commands
+% \usepackage{epsfig}
+
+% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+% The amsthm package provides extended theorem environments
+% \usepackage{amsthm}
+\usepackage{amsmath}
+
+% The lineno packages adds line numbers. Start line numbering with
+% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+% for the whole article with \linenumbers after \end{frontmatter}.
+\usepackage{lineno}
+
+% I like to be in control
+\usepackage{placeins}
+
+% natbib.sty is loaded by default. However, natbib options can be
+% provided with \biboptions{...} command. Following options are
+% valid:
+
+%   round  -  round parentheses are used (default)
+%   square -  square brackets are used   [option]
+%   curly  -  curly braces are used      {option}
+%   angle  -  angle brackets are used    <option>
+%   semicolon  -  multiple citations separated by semi-colon
+%   colon  - same as semicolon, an earlier confusion
+%   comma  -  separated by comma
+%   numbers-  selects numerical citations
+%   super  -  numerical citations as superscripts
+%   sort   -  sorts multiple citations according to order in ref. list
+%   sort&compress   -  like sort, but also compresses numerical citations
+%   compress - compresses without sorting
+%
+% \biboptions{comma,round}
+
+% \biboptions{}
+
+
+% Katy Huff addtions
+\usepackage{xspace}
+\usepackage{color}
+
+\usepackage{multirow}
+\usepackage[hyphens]{url}
+
+
+\usepackage[acronym,toc]{glossaries}
+\include{acros}
+
+\makeglossaries
+
+%\journal{Annals of Nuclear Energy}
+
+\begin{document}
+
+%\begin{frontmatter}
+
+% Title, authors and addresses
+
+% use the tnoteref command within \title for footnotes;
+% use the tnotetext command for the associated footnote;
+% use the fnref command within \author or \address for footnotes;
+% use the fntext command for the associated footnote;
+% use the corref command within \author for corresponding author footnotes;
+% use the cortext command for the associated footnote;
+% use the ead command for the email address,
+% and the form \ead[url] for the home page:
+%
+% \title{Title\tnoteref{label1}}
+% \tnotetext[label1]{}
+% \author{Name\corref{cor1}\fnref{label2}}
+% \ead{email address}
+% \ead[url]{home page}
+% \fntext[label2]{}
+% \cortext[cor1]{}
+% \address{Address\fnref{label3}}
+% \fntext[label3]{}
+
+\title{Neural Network Model Applciations to Reactor Fuel Depletion for Fuel Cycle Modeling\\
+        \large Response to Review Comments}
+\author{Jin Whan Bae, Andrei Rykhlevskii, Gwendolyn Chee, Kathryn D. Huff}
+
+% use optional labels to link authors explicitly to addresses:
+% \author[label1,label2]{<author name>}
+% \address[label1]{<address>}
+% \address[label2]{<address>}
+
+
+%\author[uiuc]{Kathryn Huff}
+%        \ead{kdhuff@illinois.edu}
+%  \address[uiuc]{Department of Nuclear, Plasma, and Radiological Engineering,
+%        118 Talbot Laboratory, MC 234, Universicy of Illinois at
+%        Urbana-Champaign, Urbana, IL 61801}
+%
+% \end{frontmatter}
+\maketitle
+\section*{Review General Response}
+Thank you for the thorough, careful review
+[comment about test set]
+
+
+\section*{Abstract}
+\begin{questions}
+
+        %---------------------------------------------------------------------
+        \question Abstract. Motivation could appear somewhere
+
+        \begin{solution}
+        	Added:
+            
+            , to implement a quick, medium-fidelity method to
+            estimate depleted \gls{PWR} fuel assembly composition in a fuel
+            cycle simulator.
+        \end{solution}
+
+        \question
+        This is the key mistake Meaningless if no test set was reserved
+
+        \begin{solution}
+         I re-trained the neural network with a 80-20 split, where:
+         80 - training
+            - this set goes through a 3 fold cross validation,
+            - where 80 * (2/3) train, 80/3 val
+            - for hyperparameter search (performance comparison)
+         20 - test set reserved for final model
+
+         The results are added to the paper. 
+
+        \end{solution}
+
+        \quesiton
+        Not exactly proprietary..
+
+        \begin{solution}
+        I changed proprietary to private data.
+
+        I was told that the UNF-ST\&DARDS software is privately available
+        in RSICC, and is planned to be publicly available in the upcoming
+        months. For the data itself, it is only available through direct
+        contact with Kaushik Banerjee.
+        \end{solution}
+
+        \question
+        Sentence missing a word..
+
+
+        \begin{solution}
+        I'm not quite sure what word is missing. Is it the grammar?
+        \end{solution}
+
+\section*{Introduction}
+
+        \question
+        Blue highlights
+
+        \begin{solution}
+        I assume they are highlighted because they're passive.
+        Let me know if that's not the case.
+        \end{solution}
+
+        \question
+        Review is missing built-in spectral and other methods
+
+        \begin{solution}
+
+        \end{solution}
+
+        \question
+        Was this copy-pasted from elsewhere?
+
+        \begin{solution}
+        From my master's thesis. Should I change things around?
+        \end{solution}
+
+
+\section*{Methods}
+        \question
+        Maybe figure would be better than a list
+
+        Perhaps this should be a separate step
+
+        \begin{solution}
+
+        \end{solution}
+
+        \question
+        Are hidden layers and nodes per layer "Hyper parameters"
+
+        \begin{solution}
+        To the best of my knowledge they are, I guess the type of 
+        regression algorithm (linear regression, random forest etc.)
+        could also be a hyper parameter. Let me know what you think
+        about this definition.
+        \end{solution}
+
+        \question
+        Rephrase. Recognize that the reactor params could be input
+        values
+
+        \begin{solution}
+        added:
+            Also, it should be noted that the reactor
+            parameters could be input values to the neural network model.
+        \end{solution}
+
+        \question
+        Say this in a more compleeing way.
+
+        \begin{solution}
+            I'm sorry I'm having a hard time reading the handwriting.
+            Can you clarify what you want done here?
+        \end{solution}
+
+        \question
+        But it is now accessible via RSICC right?
+
+        \begin{solution}
+            I checked the RSICC website but couldn't find it there,
+            I will double check with the guys working on it to
+            confirm the access status of the database
+        \end{solution}
+
+        \question
+        Machine learning may actually benefit from more extreme data...
+
+        \begin{solution}
+            I originally used all the data but the results werent
+            great, so I decided to filter them, and I saw a significant
+            increase in performance. I don't think this model should
+            do well in predicting outliers by sacrificing its performance
+            for predicting modern enrichment/burnup assemblies.
+        \end{solution}
+
+
+        \question
+        Cite this, explain it?
+
+        \begin{solution}
+            I feel like explaining it would make the paragraph too
+            lengthy and unnecessary. 
+        \end{solution}
+
+
+        \question
+        So then, is it really fair?
+
+        \begin{solution}
+            I do see your point, but I think it is the best
+            option I have? What do you think?
+        \end{solution}
+
+        \question
+        This is circular
+        To demonstrate this, you need a test set
+
+        \begin{solution}
+        I did mention the test set, and that we set aside
+        20 percent prior to any training.
+        \end{solution}
+
+        \question
+        No one knows what the recipe reactor is
+
+        \begin{solution}
+            Changed sentence to 
+
+            This sort of implementation can be done with
+            a recipe-based approach for modeling reactor depletion
+            if the user defines multiple
+            output recipes. 
+        \end{solution}
+
+
+\section*{Results}
+        \question
+        Why choose this one?
+        \begin{solution}
+            These enrichment-burnup values are just picked
+            from random,to show some examples of this prediction
+            algorithm's performance. I handpicked some of them
+            to show the spectrum of enrichment-burnup sets.
+        \end{solution}
+
+        \question
+        Why not compare the whole thing?
+        \begin{solution}
+            that is done later in the paper,
+        \end{solution}
+
+        \question
+        There maybe a more dense way to show this info
+        \begin{solution}
+            I tried grid plots (2 x 2) but they were hard to see,
+            and the colors became indistinguishable if I used the 
+            same colorbar for all plots
+
+            I also was looking at 3d, but I decided that this
+            was the clearest way to show this data. Let me know
+            if you know of a good way!
+        \end{solution}
+
+        \question
+        What does median assembly mean?
+
+        \begin{solution}
+        I rewrote the sentence for clarity:
+
+            The median values for burnup and initial enrichment are
+            $41,552$ MWd/MT and 3.85 (wt\%), respectively. 
+        \end{solution}
+
+
+        \question
+        In part, this is because you are comparing median with
+        mean.. right?
+
+        \begin{solution}
+        I am not sure if I understand the question,
+        The recipe is the composition for an assembly with median
+        enrichment and burnup. I am not comparing the recipe to
+        any average value..? 
+        \end{solution}
+
+        \question
+        How is this a smooth line?
+
+        \begin{solution}
+        I used Pyne to generate 100 points for every inventory,
+        so that the lines look continuous.
+        \end{solution}
+
+
+        \question
+        Is this in the archetype of the toolkit
+
+        \begin{solution}
+        It is in the archetype, using python eval().
+        I don't think the toolkit exists.
+        \end{solution}
+
+        \question
+        What do you mean enrichment burnup matrix?
+
+        \begin{solution}
+        the matrix would have an enrichment / burnup
+        matrix for each assembly, with a shape (n\_batch, n\_assem per patch).
+        \end{solution}
+
+        \question
+        Seems like something that could be fixed fairly easily..
+
+        \begin{solution}
+        It would be if the neural network model could predict EOC keff,
+        but the model does not, since the keff data is not in the UDB.
+        But it would be a nice function to have.
+        \end{solution}
+
+        \question
+        Great. this should be a cyclus toolkit addition
+
+        \begin{solution}
+        I agree, and I made the issue in github.com/cyclus/cyclus.
+        I think Greg is workin on it. It's easy to implement in
+        python archetypes since it's a python function that evaluates
+        function definition strings into floats every timestep. I am
+        unsure how it can be implemented cyclus-wide.
+        \end{solution}
+
+
+\section*{Conclusion}
+        \question
+         wow..
+
+        \begin{solution}
+            Sorry you had to see my inner dialog. I am not sure
+            if this should be in the paper, given that I am not really
+            an authority in these matters, if that makes any sense. I thought
+            it was too bullish(?) of me to suggest a direction for the
+            nuclear science community. Let me know what you think of this
+            paragraph.
+        \end{solution}
+
+        
+
+
+
+
+        %---------------------------------------------------------------------
+\end{questions}
+\bibliographystyle{unsrt}
+\bibliography{revise}
+\end{document}
+
+  %
+  % End of file `elsarticle-template-num.tex'.
