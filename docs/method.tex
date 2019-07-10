@@ -104,7 +104,7 @@ burnup and enrichment distribution of the assemblies in the
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{enr_bu.png}
-    \caption{Burnup and enrichment distribution of train
+    \caption{Burnup and enrichment distribution of training
              datasets curated from the \gls{UDB}.}
     \label{fig:enr_bu}
 \end{figure}
@@ -166,7 +166,7 @@ and pandas \cite{mckinney-proc-scipy-2010} for data processing and management.
     \includegraphics[width=\textwidth]{pu-239_sub.png}
     \caption{$^{239}Pu$ composition in a \gls{UNF} assembly
              is not linearly related to burnup, since it
-             is affectex by multiple, conflicting creation
+             is affected by multiple, conflicting creation
              and destruction terms}
     \label{fig:pu_239}
 \end{figure}
@@ -194,7 +194,7 @@ depleted assembly.
 With the curated dataset, we performed an outer loop
 search to find the best-performing neural network
 hyperparameter. First, we set aside 20 percent of the 
-data for final model testing purposes. We used a three-fold
+data for final model testing purposes. We used three-fold
 cross validation \cite{stone1974cross} on the remaining
 dataset to
 measure the average prediction error value. We
@@ -255,7 +255,7 @@ mass difference.
 We investigated the model accuracy with respect to fuel
 cycle metrics such as activity and decay heat. The purpose
 of this investigation is to see how this model can accurately
-predict \gls{UNF} inventory profile in a \gls{NFC} simulator.
+predict \gls{UNF} inventory profile when used in a \gls{NFC} simulator.
 
 We compared parameters of the \gls{UNF} inventory
 such as activity and decay heat, using the
@@ -270,7 +270,7 @@ it predicts the dataset well. In other words, the
 goal of the model is to be able to reproduce,
 in a continuous manner, the range of fuel depletion
 calculations in the database without access to the particular dataset
-and to outperform simple interpolation with respect to accuracy.
+and to have comparable performance to simple interpolation with respect to accuracy.
 This work
 demonstrates a general approach for implementing
 rapid depletion models in fuel cycle simulations.
@@ -290,10 +290,39 @@ but calculates depleted fuel composition using the
 imported model instead of a recipe. The user defines a burnup
 and enrichment
 matrix for the reactor, and can even vary individual
-assembly burnups. The rows are the number
+assembly burnups (figures \ref{fig:enr_mat} and \ref{fig:bu_mat}). The rows are the number
 %!%!%! instead of example, can you give a small matrix (display in math mode)
 of batches, and the columns are the number of
-assemblies in a batch. This reactor module is also
+assemblies in a batch.
+\begin{figure}
+\centering
+\(
+\begin{bmatrix}
+2.1 & 3.1 & 3.1 & 3.1 & 3.1 & 4.1 & 4.1 & 4.1 & 3.1 \\
+3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 4.1 & 3.5 & 3.2 \\
+3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 3.1 & 3.1
+\end{bmatrix}
+\)
+\caption{Enrichment matrix defined for reactor with 3 batches,
+         and 9 assemblies per batch.}
+\label{fig:enr_mat}
+\end{figure}
+
+\begin{figure}
+\centering
+\(
+\begin{bmatrix}
+30,000 & 30,000 & 30,000 \\
+32,000 & 34,000 & 40,000 \\
+\text{33000*(1.01)**(t)} & \text{33000*(1.01)**(t)} & \text{33000*(1.01)**(t)}
+\end{bmatrix}
+\)
+\caption{Burnup matrix defined for reactor with 3 batches, and 3 assemblies
+         per batch. The values could also be passed as an equation for time. In this case, the burnup for the last (and equilibrium) increases with time.}
+\label{fig:bu_mat}
+\end{figure}
+
+This reactor module is also
 available on Github \footnote{https://github.com/jbae11/ann\_pwr}.
 
 This sort of implementation can be done with
