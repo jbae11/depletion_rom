@@ -189,7 +189,6 @@ recipe method.
 Unsurprisingly, the error increases as the actual burnup and enrichments
 diverge from the average.
 
-%! Regenerate plots
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{assem_dh.png}
@@ -364,7 +363,6 @@ cycle time and refueling time for the reactor model, as shown
 in figure \ref{fig:cyclus_time}.
 
 
-%! Check this - shouldn't hte pu239 decrease
 %! it is plutonium in the fuel total
 \begin{figure}
     \centering
@@ -383,11 +381,11 @@ in figure \ref{fig:cyclus_time}.
 \end{figure}
 
 
-%! Not so interesting plot
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{./cyclus_imp/cycle_time.png}
-    \caption{Discharge and refueling cycles can be defined as an equation of time in this reactor archetype.}
+    \caption{Discharge and refueling cycles can be defined as an equation of time in this reactor archetype. Discharge burnup is scaled to take into account longer fuel residence time, and leads to increase in discharge fuel \textsuperscript{244}Cm composition.
+    }
     \label{fig:cyclus_time}
 \end{figure}
 
