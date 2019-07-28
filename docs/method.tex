@@ -139,10 +139,10 @@ burnup, enrichment, and isotopic composition.
 We observed that, if the isotopic population is mainly determined by
 the fission of initial uranium, a linear regression algorithm
 can be used to predict the isotopic composition from burnup
-(\textsuperscript{137}Cs shown in figure \ref{fig:cs_137}).
-However, isotopes like \textsuperscript{239}Pu (figure \ref{fig:pu_239}) have multiple, conflicting creation
+(\textsuperscript{137}Cs shown in Figure \ref{fig:cs_137}).
+However, isotopes like \textsuperscript{239}Pu (Figure \ref{fig:pu_239}) have multiple, conflicting creation
 and destruction terms, making it harder to predict using a
-linear regression algorithm. Also, the \textsuperscript{235}U (figure \ref{fig:u_235})
+linear regression algorithm. Also, the \textsuperscript{235}U (Figure \ref{fig:u_235})
 composition
 depends on both burnup and enrichment, which can make it
 hard to predict using a simple linear model.
@@ -193,7 +193,7 @@ depleted assembly.
 
 With the curated dataset, we performed an outer loop
 search to find the best-performing neural network
-hyperparameter. First, we set aside 20 percent of the 
+hyperparameter (Table \ref{tab:hyper}). First, we set aside 20 percent of the 
 data for final model testing purposes. We used three-fold
 cross validation \cite{stone1974cross} on the remaining
 dataset to
@@ -215,6 +215,8 @@ so that the range of input and output data was (0,1).
     \caption{Table of hyperparameters tested
              for the neural network model. The bold
              numbers are the values we used for the final model.}
+    \label{tab:hyper}
+    
 \end{table}
 
 
@@ -290,7 +292,7 @@ but calculates depleted fuel composition using the
 imported model instead of a recipe. The user defines a burnup
 and enrichment
 matrix for the reactor, and can even vary individual
-assembly burnups (figures \ref{fig:enr_mat} and \ref{fig:bu_mat}). The rows are the number
+assembly burnups (Figures \ref{fig:enr_mat} and \ref{fig:bu_mat}). The rows are the number
 %!%!%! instead of example, can you give a small matrix (display in math mode)
 of batches, and the columns are the number of
 assemblies in a batch.
