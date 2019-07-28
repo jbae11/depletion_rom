@@ -276,11 +276,13 @@ $^{239}Pu$ equivalent, shown in figure \ref{tab:pu_equiv} \cite{anon_plutonium_1
 calculated by aggregating the weighted fissile
 values of each isotope in a material. The $^{239}Pu$
 equivalent factors are different for fast neutron spectrum 
-and thermal neutron spectrum reactors \cite{baker_comparison_1963}.  
-For example, the equivalent fissile value for
-an \gls{LWR} will be calculated by:
+and thermal neutron spectrum reactors \cite{baker_comparison_1963}
+(factors shown in table \ref{tab:pu_equiv}).  
+The equivalent fissile value is calculated by:
+\begin{gather}
+\text{Pu}_{\text{eq}} = \sum_i w_i m_i
+\end{gather}
 \begin{gather*}
-\text{Pu}_{\text{eq}} = \sum_i w_i m_i \\
 i \in [^{235}U, ^{238}Pu, ^{239}Pu, ^{240}Pu, ^{241}Pu, ^{242}Pu, ^{242}Am] \\
 w_i = \text{equivalent weighting factors} \\
 m_i = \text{mass of iso i} \\
