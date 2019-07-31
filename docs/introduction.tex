@@ -100,7 +100,7 @@ for multiple reactor types with multiple initial fuel enrichment are
 generated before ORION analysis \cite{sunny_transition_2015}. 
 The libraries are then used to generate spent fuel recipes based on 
 reactor conditions such as burnup, enrichment, etc.  
-DYMOND has a recipe-based method where recipes for both the input 
+DYMOND has a recipe-based method in which recipes for both the input 
 and output fuel compositions are externally calculated. 
 Isotopes are tracked in lumped categories: fission products, minor 
 actinides, uranium and plutonium \cite{feng_standardized_2016}.  
@@ -128,24 +128,22 @@ a trained dense neural network model that is able to predict \gls{PWR} \gls{UNF}
 composition based on initial enrichment and burnup. 
 
 \subsection{Previous Work}
-This work is similar to work done by Leniau et al. \cite{leniau_neural_2015},
-where neural networks are used for \gls{MOX} modeling in the \gls{FCS} CLASS. Two separate neural network applications are
-demonstrated in this work.
-The first model predicted the plutonium fraction in a fresh \gls{MOX}
-required to reach a specific burnup. The second model predicted
-mean cross sections for depletion calculations.
-
-Differences between this work and the work by Leniau et al. are
-the following:
-\begin{itemize}
-    \item This work predicts \gls{UOX} fuel depletion.
-    \item By directly predicting depleted composition this model does not require solving of the Bateman equations to obtain fuel depleted composition.
-    \item This work demonstrates the effect of using the neural network in a large-scale \gls{NFC} simulation by comparing \gls{UNF} inventory metrics.
-    \item The neural network is implemented into a reactor model for dynamic (enrichment, burnup) reactor modeling.
-\end{itemize}
-
-
-
+In 2015, Leniau et al. \cite{leniau_neural_2015} used neural networks
+for modeling \gls{MOX} fuel in the \gls{FCS} CLASS. They successfully
+demonstrated an application of neural networks to predict plutonium
+fraction in a fresh \gls{MOX} fuel required to reach a specific burnup,
+as well as to predict mean cross section for depletion calculations.
+The present work is similar to the work by Leniau et al. in using
+neural network predictions to substitute complex, resource-intensive
+calculations in a \gls{FCS}. However, the present work predicts
+\gls{UOX} fuel depletion, and the neural network predicts the depleted
+compositions directly, which eliminates the need to solve the Bateman
+equations. Also, we further extend the concept pioneered by
+Leniau et al. by using the trained neural network
+to predict a time-aggregated \gls{UNF} inventory, and comparing
+the inventory with a pre-existing database. Lastly, this work
+implements the neural network to a reactor model to
+simulate dynamic (burnup, enrichment) reactor behavior.
 
 
 
