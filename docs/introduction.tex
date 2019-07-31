@@ -127,6 +127,28 @@ maintaining a practical computational cost, this paper introduces
 a trained dense neural network model that is able to predict \gls{PWR} \gls{UNF}
 composition based on initial enrichment and burnup. 
 
+\subsection{Previous Work}
+This work is similar to work done by Leniau et al. \cite{leniau_neural_2015},
+where neural networks are used for \gls{MOX} modeling in the \gls{FCS} CLASS. Two separate neural network applications are
+demonstrated in this work.
+The first model predicted the plutonium fraction in a fresh \gls{MOX}
+required to reach a specific burnup. The second model predicted
+mean cross sections for depletion calculations.
+
+Differences between this work and the work by Leniau et al. are
+the following:
+\begin{itemize}
+    \item This work predicts \gls{UOX} fuel depletion.
+    \item By directly predicting depleted composition this model does not require solving of the Bateman equations to obtain fuel depleted composition.
+    \item This work demonstrates the effect of using the neural network in a large-scale \gls{NFC} simulation by comparing \gls{UNF} inventory metrics.
+    \item The neural network is implemented into a reactor model for dynamic (enrichment, burnup) reactor modeling.
+\end{itemize}
+
+
+
+
+
+
 \subsection{\Cyclus}
 
 \Cyclus is an agent-based nuclear fuel cycle simulation framework 
