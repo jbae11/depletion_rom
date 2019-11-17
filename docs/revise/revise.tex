@@ -159,25 +159,17 @@ paper.
         \question This is a really neat paper. The value of this as an open source tool to do transmutation analyses is profound. I am a bit concerned about people applying such a tool outside of its range of applicability... and what would happen in that case. Perhaps the authors could comment.
 
         \begin{solution}
-        	Thank you for your valuable input. We do acknowledge that it is a tricky
-            situation to have a neural network ``mimic'' export control software, and 
-            there has been a lot of discussion on whether we should control such
-            tools. We believe that the designed neural network for this work does not have
-            any malicious applicability, since it is limited to \gls{PWR} depletion
-            using burnup and enrichment. However, given the security aspect of nuclear
-            engineering research, a conversation about how certain algorithms should be
-            treated would be an interesting (and necessary) discussion in the community.
+            Thank you for your valuable input. We do acknowledge that it is 
+                a tricky situation to provide a tool which might be used 
+                outside of its range of validity by an unaware user. 
 
             We added the following paragraph at the end of the discussion section:
-                        
-            Another interesting topic of discussion is the possible
-            issues that arise from openly distributing a tool that `mimics'
-            an export control software, in this case, SCALE/ORIGEN. We believe
-            that the designed neural network for this work does not have any
-            potential to be used other than \gls{PWR} depletion. However, given
-            the recent increase in the application of machine learning
-            for nuclear engineering, a conversation about how certain models should
-            be controlled would be an interesting (and necessary) discussion in the community.
+
+            Importantly, this neural network is only appropriate for \gls{PWR} 
+                depletion calculations covered by the parametric space of the 
+                training set. So, the user will need to remain inside the realm 
+                of applicability when using neural networks trained in this 
+                way.
 
         \end{solution}
 
